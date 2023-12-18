@@ -19,7 +19,6 @@ class SettingViewModel :ViewModel() {
     fun logout() {
 
         val firebaseAuth = FirebaseAuth.getInstance()
-
         firebaseAuth.signOut()
 
         val authStateListener = FirebaseAuth.AuthStateListener {
@@ -196,5 +195,23 @@ class SettingViewModel :ViewModel() {
         Log.d(TAG, "Memos array: $memoInstance")
         MemoDataHolder.memoList.add(memoInstance)
         Log.d(TAG, "Memos arrayList: ${MemoDataHolder.memoList}")
+    }
+
+    fun joinCalendar(newCalId : String){
+        val docRef = user?.let { db.collection("users").document(it.uid) }
+        //Menambah id Calendar baru ke Array di dalam field calendars user
+        docRef?.get()?.addOnSuccessListener { documentSnapshot ->
+            if (documentSnapshot.exists()) {
+                val currentCalendarsArray = documentSnapshot.get("calendars") as? ArrayList<String> ?: ArrayList()
+                currentCalendarsArray.add(newCalId)
+                docRef.update("calendars", currentCalendarsArray)
+                    .addOnSuccessListener {
+                        // Update successful
+                    }
+                    .addOnFailureListener { e ->
+                        // Handle the failure
+                    }
+            }
+        }
     }
 }
