@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -49,6 +51,7 @@ fun LoginPage(loginViewModel: LoginViewModel = viewModel()){
                 contentScale = ContentScale.FillBounds, alpha = 0.6F
             )
             .padding(28.dp)
+            .verticalScroll(rememberScrollState())
     ) {
         Column {
             HeadingTextComponent(value = stringResource(id = R.string.welcome))
