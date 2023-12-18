@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
+import id.ac.umn.kelompokOhana.schedlin.notif.NotificationManager
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -64,6 +65,9 @@ class CreateMemoViewModel : ViewModel() {
                     }
             }
         }
+
+        val notificationService = NotificationManager.getNotificationService()
+        notificationService.showNotification()
     }
 
     fun addNewMessages(memoId: String, content: String, date: Date){

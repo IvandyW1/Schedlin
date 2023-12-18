@@ -1,5 +1,6 @@
 package id.ac.umn.kelompokOhana.schedlin.Pages
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,6 +20,7 @@ import id.ac.umn.kelompokOhana.schedlin.data.RegisterUIEvent
 import id.ac.umn.kelompokOhana.schedlin.data.RegisterViewModel
 import id.ac.umn.kelompokOhana.schedlin.data.SettingViewModel
 import id.ac.umn.kelompokOhana.schedlin.data.UserDataHolder
+import id.ac.umn.kelompokOhana.schedlin.notif.NotificationService
 
 @Composable
 fun SettingPage(){

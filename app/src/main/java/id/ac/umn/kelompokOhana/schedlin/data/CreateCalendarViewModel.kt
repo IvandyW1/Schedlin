@@ -3,6 +3,7 @@ package id.ac.umn.kelompokOhana.schedlin.data
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
+import id.ac.umn.kelompokOhana.schedlin.notif.NotificationManager
 import java.util.Date
 
 class CreateCalendarViewModel {
@@ -59,6 +60,10 @@ class CreateCalendarViewModel {
         //Masukin ke collection
         val newEventsRef = db.collection("calendars").document(calId).collection("events")
         newEventsRef.document().set(newEvents)
+
+        val notificationService = NotificationManager.getNotificationService()
+        notificationService.showNotification()
+
     }
 
 

@@ -33,6 +33,7 @@ import id.ac.umn.kelompokOhana.schedlin.data.EventModel
 import id.ac.umn.kelompokOhana.schedlin.data.SettingViewModel
 import id.ac.umn.kelompokOhana.schedlin.data.UserDataHolder
 import id.ac.umn.kelompokOhana.schedlin.data.UserModel
+import id.ac.umn.kelompokOhana.schedlin.notif.NotificationManager
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -49,15 +50,15 @@ fun CalendarPage(){
 
     val viewModel = remember { SettingViewModel() }
 
-//    var userInfo = UserDataHolder.currentUser!!
-//    Log.d("testing", userInfo.toString())
+    var userInfo = UserDataHolder.currentUser
+    Log.d("testing", userInfo.toString())
 //    viewModel.getCalenderInfo()
-//
-//    var calendarInfo = CalendarDataHolder.calendarList
-//    Log.d("testing", calendarInfo.toString())
 
-//    var currentIndex = 0
-//    events = calendarInfo[currentIndex].events
+    var calendarInfo = CalendarDataHolder.calendarList
+    Log.d("testing", calendarInfo.toString())
+
+    //var currentIndex = 0
+    //events = calendarInfo[currentIndex].events
 
 
     Column(

@@ -53,6 +53,7 @@ class SettingViewModel :ViewModel() {
                 Log.d("ini", UserDataHolder.currentUser.toString())
             }
         }
+        getCalenderInfo()
 
     }
 
