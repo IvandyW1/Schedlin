@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,7 +32,7 @@ fun MemoDetailPage(
     onBackPressedDispatcher: OnBackPressedDispatcherOwner,
 ) {
     // Load memo details based on memoId
-    val memo = dummyMemos.find { it.id == memoId } ?: Memo("", "", "")
+    var memo by remember { mutableStateOf(dummyMemos.find { it.id == memoId } ?: Memo("", "", "")) }
     var isEditing by remember { mutableStateOf(false) }
     var editedTitle by remember { mutableStateOf(TextFieldValue(memo.title)) }
     var editedContent by remember { mutableStateOf(TextFieldValue(memo.content)) }
@@ -39,7 +40,35 @@ fun MemoDetailPage(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Memo Detail") },
+                title = {
+                    if (isEditing) {
+                        BasicTextField(
+                            value = editedTitle,
+                            onValueChange = {
+                                editedTitle = it
+                                // Jika ingin melakukan perubahan judul secara langsung,
+                                // kita bisa memperbarui objek memo.
+                                // Jika tidak, perubahan judul hanya akan terlihat
+                                // ketika menyimpan (onSaveClick).
+                                memo = memo.copy(title = it.text)
+                            },
+                            textStyle = LocalTextStyle.current.copy(
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold
+                            ),
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    } else {
+                        Text(
+                            text = memo.title,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp)
+                        )
+                    }
+                },
                 navigationIcon = {
                     IconButton(onClick = {
                         // Handle back button
@@ -84,23 +113,30 @@ fun MemoDetailPage(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp)
+                    .padding(24.dp)
             ) {
-                // Judul
-                Text(
-                    text = if (isEditing) editedTitle.text else memo.title,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
+                BasicTextField(
+                    value = if (isEditing) editedTitle else TextFieldValue(memo.title),
+                    onValueChange = {
+                        if (isEditing) {
+                            editedTitle = it
+                            memo = memo.copy(title = it.text)
+                        }
+                    },
+                    textStyle = LocalTextStyle.current.copy(
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
+                    ),
+                    modifier = Modifier.fillMaxWidth()
                 )
 
-                // Content
                 BasicTextField(
                     value = if (isEditing) editedContent else TextFieldValue(memo.content),
                     onValueChange = {
-                        if (isEditing) editedContent = it
+                        if (isEditing) {
+                            editedContent = it
+                            memo = memo.copy(content = it.text)
+                        }
                     },
                     textStyle = LocalTextStyle.current.copy(fontSize = 16.sp),
                     modifier = Modifier
@@ -108,10 +144,12 @@ fun MemoDetailPage(
                         .fillMaxHeight()
                         .padding(8.dp)
                 )
+                Spacer(modifier = Modifier.height(16.dp))
             }
         }
     )
 }
+
 
 @Composable
 fun EditActions(onSaveClick: () -> Unit) {
