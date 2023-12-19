@@ -9,4 +9,5 @@ data class CalendarModel(
 
 object CalendarDataHolder {
     var calendarList: MutableList<CalendarModel> = mutableListOf()
+    var currCalendar: CalendarModel? = null
 }

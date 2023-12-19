@@ -31,12 +31,16 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import id.ac.umn.kelompokOhana.schedlin.data.CalendarDataHolder
+import id.ac.umn.kelompokOhana.schedlin.data.CreateMemoViewModel
+import id.ac.umn.kelompokOhana.schedlin.data.SettingViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateMemo(navController: NavController){
     var memoName by remember { mutableStateOf("") }
     var memoDescription by remember { mutableStateOf("") }
+    val cmViewModel = remember { CreateMemoViewModel() }
 
     val context = LocalContext.current
     Box(
@@ -83,13 +87,17 @@ fun CreateMemo(navController: NavController){
             )
 
             Button(
-                onClick = { navController.navigate("CalendarPage") },
+                onClick = {
+                    CalendarDataHolder.currCalendar?.let { cmViewModel.createNewMemo(memoName, memoDescription, it.id) }
+                    navController.navigate("CalendarPage") },
                 modifier = Modifier
                     .padding(vertical = 10.dp)
                     .padding(horizontal = 20.dp)
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                enabled = (memoName.isNotEmpty() && memoDescription.isNotEmpty())
             ) {
                 Text(text = "Finish")
+
             }
         }
     }

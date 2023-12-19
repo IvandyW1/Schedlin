@@ -44,6 +44,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import id.ac.umn.kelompokOhana.schedlin.data.CalendarDataHolder
+import id.ac.umn.kelompokOhana.schedlin.data.CreateCalendarViewModel
+import id.ac.umn.kelompokOhana.schedlin.data.CreateMemoViewModel
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -89,6 +92,8 @@ fun CreateEvent(navController : NavController){
             selectedEndTimeText = "$selectedHour:$selectedMinute"
         }, hour, minute, false
     )
+
+    val ccViewModel = remember { CreateCalendarViewModel() }
 
     Box(
         contentAlignment = Alignment.Center,
@@ -190,11 +195,20 @@ fun CreateEvent(navController : NavController){
             }
 
             Button(
-                onClick = { navController.navigate("CalendarPage") },
+                onClick = {
+                    CalendarDataHolder.currCalendar?.let {
+                        ccViewModel.addNewEvent(
+                            it.id, selectedDateText,
+                            eventName, selectedStartTimeText, selectedEndTimeText, eventDescription )
+                    }
+                    navController.navigate("CalendarPage") },
                 modifier = Modifier
                     .padding(vertical = 50.dp)
                     .padding(horizontal = 20.dp)
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                enabled = (eventName.isNotEmpty() && eventDescription.isNotEmpty() &&
+                        selectedDateText.isNotEmpty() && selectedEndTimeText.isNotEmpty()
+                        && selectedStartTimeText.isNotEmpty())
             ) {
                 Text(text = "Finish")
             }

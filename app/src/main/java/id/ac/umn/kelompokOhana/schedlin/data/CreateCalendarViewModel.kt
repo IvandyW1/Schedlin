@@ -53,8 +53,7 @@ class CreateCalendarViewModel {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         return dateFormat.format(input)
     }
-    fun addNewEvent(calId:String, date: Date, title: String, start: String, end: String, desc: String){
-        val date2 = getDate(date)
+    fun addNewEvent(calId:String, date2: String, title: String, start: String, end: String, desc: String){
 
         val newEvents = hashMapOf(
             "title" to title,
@@ -63,7 +62,7 @@ class CreateCalendarViewModel {
             "start" to start,
             "end" to end,
             "date" to date2,
-            "dateCreated" to date
+            "dateCreated" to getDate(Date())
         )
 
         //Masukin ke collection

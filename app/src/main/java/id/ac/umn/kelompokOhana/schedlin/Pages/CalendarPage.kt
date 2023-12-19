@@ -62,8 +62,6 @@ fun CalendarPage(){
     }
     var events by remember { mutableStateOf(mutableListOf<EventModel>()) }
     var calendars by remember { mutableStateOf(mutableListOf<String>()) }
-    var currCalendar: CalendarModel? = null
-    var currCalendarName: String? = null
 
     val viewModel = remember { SettingViewModel() }
 
@@ -71,33 +69,34 @@ fun CalendarPage(){
     Log.d("testing", userInfo.toString())
     viewModel.getCalenderInfo()
 
-    val calendarInfo = CalendarDataHolder.calendarList
+    var calendarInfo by remember { mutableStateOf(CalendarDataHolder.calendarList) }
     Log.d("testing", calendarInfo.toString())
 
-    var currentIndex = 0
     if(calendarInfo.isNotEmpty()){
-        currCalendar = calendarInfo[currentIndex]
-        events = calendarInfo[currentIndex].events
         for (calendar in calendarInfo){
             if(!calendars.contains(calendar.name)){
                 calendars.add(calendar.name)
             }
         }
     }
+    var selectedText : String = CalendarDataHolder.currCalendar?.name ?: "Calendar"
 
     fun changeCalendar(name: String){
         for (calendar in calendarInfo){
             if(calendar.name == name){
-                currCalendar = calendar
+                CalendarDataHolder.currCalendar = calendar
                 events = calendar.events
             }
         }
+        selectedText = name
+        Log.d("tststststs", selectedText)
+        Log.d("tststststs", CalendarDataHolder.currCalendar.toString())
     }
 
 
     val context = LocalContext.current
     var expanded by remember { mutableStateOf(false) }
-    var selectedText : String = "Calendar"
+
 
     Column(
         verticalArrangement = Arrangement.Top,
@@ -139,6 +138,7 @@ fun CalendarPage(){
                                 selectedText = item
                                 expanded = false
                                 Toast.makeText(context, item, Toast.LENGTH_SHORT).show()
+                                changeCalendar(selectedText)
                             }
                         )
                     }
@@ -157,7 +157,7 @@ fun CalendarPage(){
             }
         })
 
-        currCalendar?.let { Text(text = it.id) }
+        CalendarDataHolder.currCalendar?.let { Text(text = it.id) }
 
         Text(text = date)
 
@@ -178,6 +178,7 @@ fun CalendarPage(){
         }
     }
 }
+
 
 fun formatDate(inputDate: Date): String {
     val dateFormat = SimpleDateFormat("EEE, dd MMMM yyyy", Locale.getDefault())

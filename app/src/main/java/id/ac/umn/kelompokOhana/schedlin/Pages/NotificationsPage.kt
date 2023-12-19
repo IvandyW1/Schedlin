@@ -17,7 +17,10 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,19 +30,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import id.ac.umn.kelompokOhana.schedlin.data.ActivityDataHolder
 import id.ac.umn.kelompokOhana.schedlin.data.ActivityViewModel
+import id.ac.umn.kelompokOhana.schedlin.data.CalendarDataHolder
 import id.ac.umn.kelompokOhana.schedlin.data.SettingViewModel
 
 @Composable
 fun NotificationsPage(){
-    val notifications = listOf("Notification 1", "Notification 2", "Notification 3")
-    var textContent :String
-    var dateContent :String
     val settingviewModel = remember { SettingViewModel() }
     val activityviewModel = remember { ActivityViewModel() }
     settingviewModel.getCalenderInfo()
     settingviewModel.getMemosInfo()
     activityviewModel.getActivityList()
-    val activityInfo = ActivityDataHolder.activityList
+    var activityInfo by remember { mutableStateOf(ActivityDataHolder.activityList) }
     Log.d("activity", activityInfo.toString())
 
     Box(

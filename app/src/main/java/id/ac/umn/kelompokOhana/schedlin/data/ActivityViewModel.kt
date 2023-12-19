@@ -24,7 +24,7 @@ class ActivityViewModel {
             val activityInstance = ActivityModel(
                 title = memo.name,
                 date = memo.date,
-                type = "Event"
+                type = "Memo"
             )
 
             if(!ActivityDataHolder.activityList.contains(activityInstance)){

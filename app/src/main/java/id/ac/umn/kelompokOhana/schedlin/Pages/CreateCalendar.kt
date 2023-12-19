@@ -26,6 +26,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import id.ac.umn.kelompokOhana.schedlin.data.CreateCalendarViewModel
+import id.ac.umn.kelompokOhana.schedlin.data.SettingViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,6 +35,8 @@ import androidx.navigation.compose.rememberNavController
 fun CreateCalendar(navController: NavController){
     var calendarName by remember { mutableStateOf("") }
     val context = LocalContext.current
+    val ccViewModel = remember { CreateCalendarViewModel() }
+    val sViewModel = remember { SettingViewModel() }
 
     Box(
         contentAlignment = Alignment.Center
@@ -62,11 +66,15 @@ fun CreateCalendar(navController: NavController){
             Spacer(modifier = Modifier.height(10.dp))
 
             Button(
-                onClick = { navController.navigate("CalendarPage")},
+                onClick = {
+                    ccViewModel.createNewCalendar(calendarName)
+                    sViewModel.getCalenderInfo()
+                    navController.navigate("CalendarPage")},
                 modifier = Modifier
                     .padding(vertical = 10.dp)
                     .padding(horizontal = 20.dp)
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                enabled = calendarName.isNotBlank()
             ) {
                 Text(text = "Finish")
             }

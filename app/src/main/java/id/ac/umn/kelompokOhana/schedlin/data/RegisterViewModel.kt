@@ -166,13 +166,7 @@ class RegisterViewModel : ViewModel() {
                         db.collection("users").document(user.uid)
                             .set(newUser)
 
-                        //Testing buat
-                        val a = CreateCalendarViewModel()
-                        a.createNewCalendar("testi")
-                        a.addNewEvent(newCalendarDocId, Date(), "eventstes", "15.00", "17.00", "testningmemos")
-                        val b = CreateMemoViewModel()
-                        b.createNewMemo("memot", "inin tetsng", newCalendarDocId)
-                        b.addNewMessages("7QaFpwNkRP4FCTCq02OH", "inin isis message", Date())
+
                     }
 
                     SettingViewModel().getUserInfo()
