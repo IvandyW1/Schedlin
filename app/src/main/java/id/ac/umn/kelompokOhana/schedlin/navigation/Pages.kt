@@ -5,5 +5,8 @@ enum class Pages {
     MemoPage,
     CreatePage,
     NotificationPage,
-    SettingPage
+    SettingPage,
+    CreateCalendar,
+    CreateMemo,
+    CreateEvent
 }

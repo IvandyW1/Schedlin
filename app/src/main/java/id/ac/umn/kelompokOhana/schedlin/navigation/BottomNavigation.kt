@@ -25,6 +25,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import id.ac.umn.kelompokOhana.schedlin.Pages.CalendarPage
+import id.ac.umn.kelompokOhana.schedlin.Pages.CreateCalendar
+import id.ac.umn.kelompokOhana.schedlin.Pages.CreateEvent
+import id.ac.umn.kelompokOhana.schedlin.Pages.CreateMemo
 import id.ac.umn.kelompokOhana.schedlin.Pages.CreatePage
 import id.ac.umn.kelompokOhana.schedlin.Pages.MemoPage
 import id.ac.umn.kelompokOhana.schedlin.Pages.NotificationsPage
@@ -111,13 +114,22 @@ fun BottomNavigation(){
                 MemoPage()
             }
             composable(route = Pages.CreatePage.name){
-                CreatePage()
+                CreatePage(navController = navController)
             }
             composable(route = Pages.NotificationPage.name){
                 NotificationsPage()
             }
             composable(route = Pages.SettingPage.name){
                 SettingPage()
+            }
+            composable(route = Pages.CreateCalendar.name) {
+                CreateCalendar()
+            }
+            composable(route = Pages.CreateEvent.name) {
+                CreateEvent()
+            }
+            composable(route = Pages.CreateMemo.name) {
+                CreateMemo()
             }
         }
 
