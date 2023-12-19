@@ -22,8 +22,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,6 +40,10 @@ fun CreateMemo(){
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Text(text = "New Memo",
+                 style = TextStyle(fontSize = 24.sp)
+            )
+
             OutlinedTextField(
                 value = memoName,
                 onValueChange = { newMemoName -> memoName = newMemoName },

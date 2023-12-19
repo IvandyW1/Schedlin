@@ -18,8 +18,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,6 +34,10 @@ fun CreateCalendar(){
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Text(text = "New Calendar",
+                 style = TextStyle(fontSize = 24.sp)
+            )
+
             OutlinedTextField(
                 value = calendarName,
                 onValueChange = { newCalendarName -> calendarName = newCalendarName },
