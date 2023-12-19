@@ -108,9 +108,10 @@ class SettingViewModel :ViewModel() {
                     title = eventDataMap["title"].toString(),
                     uid = eventDataMap["userId"].toString(),
                     desc = eventDataMap["desc"].toString(),
-                    startTime = eventDataMap["startTime"].toString(),
-                    endTime = eventDataMap["endTime"].toString(),
-                    date = eventDataMap["date"].toString()
+                    startTime = eventDataMap["start"].toString(),
+                    endTime = eventDataMap["end"].toString(),
+                    date = eventDataMap["date"].toString(),
+                    dateCreated = eventDataMap["dateCreated"].toString()
                 )
                 Log.d(TAG, "Event instance: $eventInstance")
                 eventList.add(eventInstance)
@@ -188,6 +189,7 @@ class SettingViewModel :ViewModel() {
             id = doc.id,
             name = memoDataMap["name"].toString(),
             desc = memoDataMap["desc"].toString(),
+            date = memoDataMap["date"].toString(),
             usersId = (memoDataMap["usersId"] as? List<String>)?.toArrayList() ?: arrayListOf(),
             cid = memoDataMap["calendarID"].toString(),
             messages = messageList

@@ -62,7 +62,8 @@ class CreateCalendarViewModel {
             "desc" to desc,
             "start" to start,
             "end" to end,
-            "date" to date2
+            "date" to date2,
+            "dateCreated" to date
         )
 
         //Masukin ke collection

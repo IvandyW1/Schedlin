@@ -65,11 +65,11 @@ fun CalendarPage(){
 
     val viewModel = remember { SettingViewModel() }
 
-    var userInfo = UserDataHolder.currentUser
+    val userInfo = UserDataHolder.currentUser
     Log.d("testing", userInfo.toString())
 //    viewModel.getCalenderInfo()
 
-    var calendarInfo = CalendarDataHolder.calendarList
+    val calendarInfo = CalendarDataHolder.calendarList
     Log.d("testing", calendarInfo.toString())
 
     //var currentIndex = 0

@@ -31,7 +31,7 @@ class CreateMemoViewModel : ViewModel() {
         val newMemo = hashMapOf(
             "name" to name,
             "desc" to desc,
-            "dateCreated" to date,
+            "date" to date,
             "calendarID" to calId,
             "usersID" to userList
         )

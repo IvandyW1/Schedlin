@@ -10,6 +10,7 @@ data class EventModel(
     var startTime : String,
     var endTime : String,
     var date : String,
+    var dateCreated: String,
 )
 
 object EventDataHolder {

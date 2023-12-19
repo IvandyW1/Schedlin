@@ -1,5 +1,6 @@
 package id.ac.umn.kelompokOhana.schedlin.Pages
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,6 +25,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import id.ac.umn.kelompokOhana.schedlin.data.ActivityDataHolder
+import id.ac.umn.kelompokOhana.schedlin.data.ActivityViewModel
 import id.ac.umn.kelompokOhana.schedlin.data.SettingViewModel
 
 @Composable
@@ -31,9 +34,13 @@ fun NotificationsPage(){
     val notifications = listOf("Notification 1", "Notification 2", "Notification 3")
     var textContent :String
     var dateContent :String
-    val viewModel = remember { SettingViewModel() }
-    viewModel.getCalenderInfo()
-    viewModel.getMemosInfo()
+    val settingviewModel = remember { SettingViewModel() }
+    val activityviewModel = remember { ActivityViewModel() }
+    settingviewModel.getCalenderInfo()
+    settingviewModel.getMemosInfo()
+    activityviewModel.getActivityList()
+    val activityInfo = ActivityDataHolder.activityList
+    Log.d("activity", activityInfo.toString())
 
     Box(
         contentAlignment = Alignment.Center,
@@ -42,7 +49,7 @@ fun NotificationsPage(){
         LazyColumn(
             modifier = Modifier.fillMaxSize()
         ) {
-            items(notifications.size) { index ->
+            items(activityInfo.size) { index ->
                 Surface(
                     modifier = Modifier
                         .padding(horizontal = 15.dp)
@@ -54,7 +61,7 @@ fun NotificationsPage(){
                     Column(
                         modifier = Modifier.padding(10.dp)
                     ) {
-                        Text(text = notifications[index],
+                        Text(text = activityInfo[index].title,
                             modifier = Modifier.padding(bottom = 5.dp),
                             fontWeight = FontWeight.Bold
                         )
@@ -62,8 +69,8 @@ fun NotificationsPage(){
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text(text = "Memo was created.")
-                            Text(text = "Tanggal, Jam")
+                            Text(text = activityInfo[index].type + " was created.")
+                            Text(text = activityInfo[index].date)
                         }
                     }
                 }
