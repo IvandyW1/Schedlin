@@ -48,6 +48,7 @@ class SettingViewModel :ViewModel() {
                     calendars = (userDataMap["calendars"] as? List<String>)?.toArrayList() ?: arrayListOf(),
                     memos = (userDataMap["memos"] as? List<String>)?.toArrayList() ?: arrayListOf()
                 )
+
                 UserDataHolder.currentUser = userModelInstance
                 Log.d("ini", UserDataHolder.currentUser.toString())
             }
@@ -114,7 +115,9 @@ class SettingViewModel :ViewModel() {
                     dateCreated = eventDataMap["dateCreated"].toString()
                 )
                 Log.d(TAG, "Event instance: $eventInstance")
-                eventList.add(eventInstance)
+                if(!eventList.contains(eventInstance)) {
+                    eventList.add(eventInstance)
+                }
             }
         }
 
@@ -126,7 +129,9 @@ class SettingViewModel :ViewModel() {
             events = eventList
         )
         Log.d(TAG, "Calendar array: $calendarInstance")
-        CalendarDataHolder.calendarList.add(calendarInstance)
+        if(!CalendarDataHolder.calendarList.contains(calendarInstance)) {
+            CalendarDataHolder.calendarList.add(calendarInstance)
+        }
         Log.d(TAG, "Calendar arrayList: ${CalendarDataHolder.calendarList}")
     }
 
@@ -180,7 +185,9 @@ class SettingViewModel :ViewModel() {
                     date = messageDataMap["date"].toString()
                 )
                 Log.d(TAG, "Message instance: $eventInstance")
-                messageList.add(eventInstance)
+                if(!messageList.contains(eventInstance)) {
+                    messageList.add(eventInstance)
+                }
             }
         }
 
@@ -195,7 +202,9 @@ class SettingViewModel :ViewModel() {
             messages = messageList
         )
         Log.d(TAG, "Memos array: $memoInstance")
-        MemoDataHolder.memoList.add(memoInstance)
+        if(!MemoDataHolder.memoList.contains(memoInstance)) {
+            MemoDataHolder.memoList.add(memoInstance)
+        }
         Log.d(TAG, "Memos arrayList: ${MemoDataHolder.memoList}")
     }
 

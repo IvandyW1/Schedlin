@@ -14,12 +14,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -61,24 +57,47 @@ fun CalendarPage(){
     var date by remember{
         mutableStateOf(formatDate(today.time))
     }
+    var date2 by remember{
+        mutableStateOf(formatDate2(today.time))
+    }
     var events by remember { mutableStateOf(mutableListOf<EventModel>()) }
+    var calendars by remember { mutableStateOf(mutableListOf<String>()) }
+    var currCalendar: CalendarModel? = null
+    var currCalendarName: String? = null
 
     val viewModel = remember { SettingViewModel() }
 
     val userInfo = UserDataHolder.currentUser
     Log.d("testing", userInfo.toString())
-//    viewModel.getCalenderInfo()
+    viewModel.getCalenderInfo()
 
     val calendarInfo = CalendarDataHolder.calendarList
     Log.d("testing", calendarInfo.toString())
 
-    //var currentIndex = 0
-    //events = calendarInfo[currentIndex].events
+    var currentIndex = 0
+    if(calendarInfo.isNotEmpty()){
+        currCalendar = calendarInfo[currentIndex]
+        events = calendarInfo[currentIndex].events
+        for (calendar in calendarInfo){
+            if(!calendars.contains(calendar.name)){
+                calendars.add(calendar.name)
+            }
+        }
+    }
+
+    fun changeCalendar(name: String){
+        for (calendar in calendarInfo){
+            if(calendar.name == name){
+                currCalendar = calendar
+                events = calendar.events
+            }
+        }
+    }
+
 
     val context = LocalContext.current
-    val calendars = arrayOf("Calendar 1", "Calendar 2", "Calendar 3", "Calendar 4", "Calendar 5")
     var expanded by remember { mutableStateOf(false) }
-    var selectedText by remember { mutableStateOf(calendars[0]) }
+    var selectedText : String = "Calendar"
 
     Column(
         verticalArrangement = Arrangement.Top,
@@ -102,7 +121,7 @@ fun CalendarPage(){
             ) {
                 TextField(
                     value = selectedText,
-                    onValueChange = {},
+                    onValueChange = { changeCalendar(selectedText) },
                     readOnly = true,
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                     modifier = Modifier
@@ -134,10 +153,11 @@ fun CalendarPage(){
                     set(Calendar.DAY_OF_MONTH, day)
                 }.time
                 date = formatDate(selectedDate)
+                date2 = formatDate2(selectedDate)
             }
         })
 
-        Text(text = "Ini id calender")
+        currCalendar?.let { Text(text = it.id) }
 
         Text(text = date)
 
@@ -150,7 +170,10 @@ fun CalendarPage(){
 
         LazyColumn {
             items(events) { event ->
-                EventItem(event = event.title)
+                if(event.date == date2){
+                    EventItem(event = event.title)
+                }
+
             }
         }
     }
@@ -158,6 +181,11 @@ fun CalendarPage(){
 
 fun formatDate(inputDate: Date): String {
     val dateFormat = SimpleDateFormat("EEE, dd MMMM yyyy", Locale.getDefault())
+    return dateFormat.format(inputDate)
+}
+
+fun formatDate2(inputDate: Date): String {
+    val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     return dateFormat.format(inputDate)
 }
 
