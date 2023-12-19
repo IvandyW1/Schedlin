@@ -16,8 +16,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
@@ -38,6 +40,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -47,7 +53,7 @@ import java.util.Calendar
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateEvent(){
+fun CreateEvent(navController : NavController){
     var eventName by remember { mutableStateOf("") }
     var selectedDateText by remember { mutableStateOf("") }
     var selectedStartTimeText by remember { mutableStateOf("") }
@@ -85,7 +91,9 @@ fun CreateEvent(){
     )
 
     Box(
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
     ){
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -182,7 +190,7 @@ fun CreateEvent(){
             }
 
             Button(
-                onClick = {},
+                onClick = { navController.navigate("CalendarPage") },
                 modifier = Modifier
                     .padding(vertical = 50.dp)
                     .padding(horizontal = 20.dp)
@@ -193,3 +201,17 @@ fun CreateEvent(){
         }
     }
 }
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun eventPage() {
+    val navController = rememberNavController()
+
+    NavHost(navController = navController, startDestination = "startDestination") {
+        composable("startDestination") {
+            CreateEvent(navController = navController)
+        }
+        composable("CalendarPage") {}
+    }
+}
+

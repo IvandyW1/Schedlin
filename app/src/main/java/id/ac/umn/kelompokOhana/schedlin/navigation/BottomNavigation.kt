@@ -1,7 +1,9 @@
 package id.ac.umn.kelompokOhana.schedlin.navigation
 
+import android.os.Build
 import android.util.Log
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -38,6 +40,7 @@ import id.ac.umn.kelompokOhana.schedlin.Pages.SettingPage
 import id.ac.umn.kelompokOhana.schedlin.data.SettingViewModel
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomNavigation(){
@@ -136,13 +139,13 @@ fun BottomNavigation(){
                 SettingPage()
             }
             composable(route = Pages.CreateCalendar.name) {
-                CreateCalendar()
+                CreateCalendar(navController = navController)
             }
             composable(route = Pages.CreateEvent.name) {
-                CreateEvent()
+                CreateEvent(navController = navController)
             }
             composable(route = Pages.CreateMemo.name) {
-                CreateMemo()
+                CreateMemo(navController = navController)
             }
         }
 

@@ -26,10 +26,15 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.runtime.remember
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateMemo(){
+fun CreateMemo(navController: NavController){
     var memoName by remember { mutableStateOf("") }
     var memoDescription by remember { mutableStateOf("") }
 
@@ -78,7 +83,7 @@ fun CreateMemo(){
             )
 
             Button(
-                onClick = {},
+                onClick = { navController.navigate("CalendarPage") },
                 modifier = Modifier
                     .padding(vertical = 10.dp)
                     .padding(horizontal = 20.dp)
@@ -87,5 +92,17 @@ fun CreateMemo(){
                 Text(text = "Finish")
             }
         }
+    }
+}
+
+@Composable
+fun App() {
+    val navController = rememberNavController()
+
+    NavHost(navController = navController, startDestination = "startDestination") {
+        composable("startDestination") {
+            CreateMemo(navController = navController)
+        }
+        composable("CalendarPage") {}
     }
 }
