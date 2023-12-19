@@ -17,7 +17,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,7 +43,11 @@ fun RegisterPage(registerViewModel: RegisterViewModel = viewModel()) {
 
     Box(
         modifier = Modifier.fillMaxSize()
-            .verticalScroll(rememberScrollState()),
+            .verticalScroll(rememberScrollState())
+            .paint(
+                painterResource(id = R.drawable.bg3),
+                contentScale = ContentScale.FillBounds, alpha = 0.6F
+            ),
         contentAlignment = Alignment.Center
 
     ) {
