@@ -127,7 +127,6 @@ fun MyTextFieldComponent(
             Icon(painter = painterResource, contentDescription = "")
         },
         isError = !errorStatus
-
     )
 }
 

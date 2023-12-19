@@ -18,12 +18,11 @@ class CreateMemoViewModel : ViewModel() {
 
 
     //Ngambil Date
-    fun getCurrentDate(): String {
-        val currentDate = Date()
+    fun getDate(input : Date): String {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        return dateFormat.format(currentDate)
+        return dateFormat.format(input)
     }
-    val date = getCurrentDate()
+    val date = getDate(Date())
 
     //Membuat Memo Baru
     fun createNewMemo(name: String, desc: String, calId: String){
@@ -71,10 +70,11 @@ class CreateMemoViewModel : ViewModel() {
     }
 
     fun addNewMessages(memoId: String, content: String, date: Date){
+        val date2 = getDate(date)
         val newMessages = hashMapOf(
             "userId" to user?.uid,
             "content" to content,
-            "date" to Date()
+            "date" to date2
         )
 
         //Masukin ke collection

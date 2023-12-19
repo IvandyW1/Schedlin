@@ -4,7 +4,9 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 import id.ac.umn.kelompokOhana.schedlin.notif.NotificationManager
+import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 class CreateCalendarViewModel {
     private val user = Firebase.auth.currentUser
@@ -47,14 +49,20 @@ class CreateCalendarViewModel {
         }
     }
 
+    fun getDate(input: Date): String {
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        return dateFormat.format(input)
+    }
     fun addNewEvent(calId:String, date: Date, title: String, start: String, end: String, desc: String){
+        val date2 = getDate(date)
+
         val newEvents = hashMapOf(
             "title" to title,
             "userId" to user?.uid,
             "desc" to desc,
             "start" to start,
             "end" to end,
-            "date" to date
+            "date" to date2
         )
 
         //Masukin ke collection

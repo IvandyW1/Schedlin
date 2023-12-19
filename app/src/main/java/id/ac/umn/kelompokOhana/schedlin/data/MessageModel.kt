@@ -1,5 +1,7 @@
 package id.ac.umn.kelompokOhana.schedlin.data
 
+import java.util.Date
+
 data class MessageModel(
     var id: String,
     var content : String,

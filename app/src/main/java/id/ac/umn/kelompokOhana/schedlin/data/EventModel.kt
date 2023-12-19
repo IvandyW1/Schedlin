@@ -1,5 +1,7 @@
 package id.ac.umn.kelompokOhana.schedlin.data
 
+import java.util.Date
+
 data class EventModel(
     var id: String,
     var title : String,
@@ -8,7 +10,6 @@ data class EventModel(
     var startTime : String,
     var endTime : String,
     var date : String,
-
 )
 
 object EventDataHolder {
