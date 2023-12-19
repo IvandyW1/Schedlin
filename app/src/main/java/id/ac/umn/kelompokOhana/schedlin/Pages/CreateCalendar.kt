@@ -20,15 +20,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import id.ac.umn.kelompokOhana.schedlin.data.CreateCalendarViewModel
-import id.ac.umn.kelompokOhana.schedlin.data.SettingViewModel
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateCalendar(){
     var calendarName by remember { mutableStateOf("") }
     val context = LocalContext.current
-    val createCalendarViewModel = remember { CreateCalendarViewModel() }
 
     Box(
         contentAlignment = Alignment.Center
@@ -54,7 +52,7 @@ fun CreateCalendar(){
             Spacer(modifier = Modifier.height(10.dp))
 
             Button(
-                onClick = {createCalendarViewModel.createNewCalendar(calendarName)},
+                onClick = {},
                 modifier = Modifier
                     .padding(vertical = 10.dp)
                     .padding(horizontal = 20.dp)
