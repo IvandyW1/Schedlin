@@ -1,5 +1,7 @@
 package id.ac.umn.kelompokOhana.schedlin.navigation
 
+import android.util.Log
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -29,6 +31,7 @@ import id.ac.umn.kelompokOhana.schedlin.Pages.CreateCalendar
 import id.ac.umn.kelompokOhana.schedlin.Pages.CreateEvent
 import id.ac.umn.kelompokOhana.schedlin.Pages.CreateMemo
 import id.ac.umn.kelompokOhana.schedlin.Pages.CreatePage
+import id.ac.umn.kelompokOhana.schedlin.Pages.MemoDetailPage
 import id.ac.umn.kelompokOhana.schedlin.Pages.MemoPage
 import id.ac.umn.kelompokOhana.schedlin.Pages.NotificationsPage
 import id.ac.umn.kelompokOhana.schedlin.Pages.SettingPage
@@ -111,7 +114,17 @@ fun BottomNavigation(){
                 CalendarPage()
             }
             composable(route = Pages.MemoPage.name){
-                MemoPage()
+                MemoPage(navController = navController)
+            }
+            composable(route = "MemoDetailPage/{memoId}") { backStackEntry ->
+                val memoId = backStackEntry.arguments?.getString("memoId")
+                val dispatcher = LocalOnBackPressedDispatcherOwner.current
+                Log.d("MemoDetailPage", "memoId: $memoId, dispatcher: $dispatcher")
+                if (dispatcher != null && memoId != null) {
+                    MemoDetailPage(memoId, dispatcher)
+                } else {
+                    Log.e("MemoDetailPage", "Failed to navigate to MemoDetailPage. memoId or dispatcher is null.")
+                }
             }
             composable(route = Pages.CreatePage.name){
                 CreatePage(navController = navController)
