@@ -11,7 +11,7 @@ import java.util.Date
 import java.util.Locale
 
 class CreateMemoViewModel : ViewModel() {
-    val db = Firebase.firestore
+    private val db = Firebase.firestore
 
     //Ngambil current user
     val user = Firebase.auth.currentUser
@@ -93,6 +93,7 @@ class CreateMemoViewModel : ViewModel() {
 
         //Mengambil user list di memo kemudian memo di hapus
         memoRef.get().addOnSuccessListener { doc ->
+            Log.d("inijuga", doc.data.toString())
             userList = doc.get("usersId") as ArrayList<String>?
         }
         Log.d("inijuga", userList.toString())

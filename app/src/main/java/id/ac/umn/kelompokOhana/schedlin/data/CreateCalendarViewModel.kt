@@ -1,10 +1,12 @@
 package id.ac.umn.kelompokOhana.schedlin.data
 
+import android.util.Log
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.firestore
 import id.ac.umn.kelompokOhana.schedlin.notif.NotificationManager
+import kotlinx.coroutines.tasks.await
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -78,14 +80,13 @@ class CreateCalendarViewModel {
         //Tunjukkan notifikasi bahwa ada event baru yang dibuat
         val notificationService = NotificationManager.getNotificationService()
         notificationService.showNotification()
-
     }
 
-    //Function untk menghapus event
+    //Function untuk menghapus event
     fun deleteEvent(eventId: String, calenderId: String){
-        db.collection("calenders").document(calenderId).collection("events")
+        val ref = db.collection("calendars").document(calenderId)
+        ref.collection("events")
             .document(eventId).delete()
     }
-
 
 }
