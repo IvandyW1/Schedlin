@@ -258,4 +258,10 @@ class SettingViewModel :ViewModel() {
             docRef?.update("usersId", currUsers)
         }
     }
+
+    //Function untuk melakukan update informasi user
+    fun updateUserInformation(name: String){
+        val userRef = user?.let { db.collection("users").document(it.uid) }
+        userRef?.update("name", name)
+    }
 }

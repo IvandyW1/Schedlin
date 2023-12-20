@@ -56,12 +56,15 @@ import id.ac.umn.kelompokOhana.schedlin.R
 import id.ac.umn.kelompokOhana.schedlin.ui.theme.BgColor
 import id.ac.umn.kelompokOhana.schedlin.ui.theme.Blue1
 import id.ac.umn.kelompokOhana.schedlin.ui.theme.Blue2
+import id.ac.umn.kelompokOhana.schedlin.ui.theme.Blue3
 import id.ac.umn.kelompokOhana.schedlin.ui.theme.GrayColor
 import id.ac.umn.kelompokOhana.schedlin.ui.theme.Primary
 import id.ac.umn.kelompokOhana.schedlin.ui.theme.Secondary
 import id.ac.umn.kelompokOhana.schedlin.ui.theme.TextColor
 
 
+//File ini berisi komponen-komponen yang digunakan pada page register dan login
+//Komponen yang ada termasuk text, textfield, button dan sebagainya
 @Composable
 fun NormalTextComponent(value: String) {
     Text(
@@ -273,7 +276,7 @@ fun ClickableLoginTextComponent(tryingToLogin: Boolean = true, onTextSelected: (
 
     val annotatedString = buildAnnotatedString {
         append(initialText)
-        withStyle(style = SpanStyle(color = Primary)) {
+        withStyle(style = SpanStyle(color = Blue3)) {
             pushStringAnnotation(tag = loginText, annotation = loginText)
             append(loginText)
         }

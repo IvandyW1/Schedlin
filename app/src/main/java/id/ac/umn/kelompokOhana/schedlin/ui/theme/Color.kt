@@ -19,7 +19,7 @@ val WhiteColor = Color(0xFFFFFFFF)
 val BgColor = Color(0xFFF7F8F8)
 val Blue1 = Color(0xff17b1e5)
 val Blue2 = Color(0xff149dcc)
-
+val Blue3 = Color(0xff0000ff)
 
 val Background = Color(0xFFEFF5F5)
 val ContentColor = Color(0xFFD6E4E5)

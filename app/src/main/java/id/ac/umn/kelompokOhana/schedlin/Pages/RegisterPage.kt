@@ -47,17 +47,12 @@ fun RegisterPage(registerViewModel: RegisterViewModel = viewModel()) {
             .paint(
                 painterResource(id = R.drawable.bg3),
                 contentScale = ContentScale.FillBounds, alpha = 0.6F
-            ),
+            )
+            .padding(28.dp),
         contentAlignment = Alignment.Center
 
     ) {
 
-        Surface(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White)
-                .padding(28.dp)
-        ) {
             Column(modifier = Modifier.fillMaxSize()) {
 
                 HeadingTextComponent(value = stringResource(id = R.string.create_account))
@@ -135,7 +130,7 @@ fun RegisterPage(registerViewModel: RegisterViewModel = viewModel()) {
 
         }
     }
-}
+
 
 
 

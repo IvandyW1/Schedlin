@@ -30,13 +30,16 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalPermissionsApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //Couroutine untuk mendapatkan info user saat masuk ke aplikasi
         CoroutineScope(Dispatchers.IO).launch {
             SettingViewModel().getUserInfo()
         }
+        //Inisialisasi context untuk Notification manager
         NotificationManager.initialize(this)
 
         setContent {
             SchedlinTheme {
+                //Mendapatkan permission untuk menampilkan notifikasi
                 val postNotificationPermission=
                     rememberPermissionState(permission = android.Manifest.permission.POST_NOTIFICATIONS)
                 LaunchedEffect(key1 = true ){

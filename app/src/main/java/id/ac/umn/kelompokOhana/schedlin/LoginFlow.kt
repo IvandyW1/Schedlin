@@ -13,6 +13,7 @@ class LoginFlow :Application() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate() {
         super.onCreate()
+        //Inisialiasasi Channel Notif dan Notification Manager
         val notificationChannel= NotificationChannel(
             NOTIFICATION_CHANNEL_ID,
             NOTIFICATION_CHANNEL_NAME,
@@ -20,6 +21,7 @@ class LoginFlow :Application() {
         )
         val notificationManager=getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(notificationChannel)
+        //Inisialisasi Firebase
         FirebaseApp.initializeApp(this)
     }
 }
