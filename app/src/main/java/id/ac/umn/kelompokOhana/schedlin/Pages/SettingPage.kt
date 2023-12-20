@@ -31,6 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -52,15 +53,7 @@ fun SettingPage(){
     val userInfo = UserDataHolder.currentUser
     var newCalId by remember { mutableStateOf("") }
 
-    val navController = rememberNavController()
     val context = LocalContext.current
-
-    NavHost(navController = navController, startDestination = "startDestination") {
-        composable("startDestination") {
-            CreateCalendar(navController = navController)
-        }
-        composable("CalendarPage") {}
-    }
 
     Column(
     ){
@@ -99,7 +92,6 @@ fun SettingPage(){
             onButtonClicked = {
                 settingViewModel.joinCalendar(newCalId)
                 Toast.makeText(context, "Calendar Joined!", Toast.LENGTH_SHORT).show()
-                navController.navigate("CalendarPage")
             },
             isEnabled = newCalId.isNotEmpty()
         )
@@ -114,10 +106,4 @@ fun SettingPage(){
             isEnabled = true
         )
     }
-}
-
-@Preview
-@Composable
-fun DefaultPreviewSetting() {
-    SettingPage()
 }
