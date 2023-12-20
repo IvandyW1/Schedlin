@@ -44,9 +44,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import id.ac.umn.kelompokOhana.schedlin.data.ActivityDataHolder
 import id.ac.umn.kelompokOhana.schedlin.data.CalendarDataHolder
 import id.ac.umn.kelompokOhana.schedlin.data.CalendarModel
 import id.ac.umn.kelompokOhana.schedlin.data.EventModel
+import id.ac.umn.kelompokOhana.schedlin.data.MemoDataHolder
 import id.ac.umn.kelompokOhana.schedlin.data.SettingViewModel
 import id.ac.umn.kelompokOhana.schedlin.data.UserDataHolder
 import id.ac.umn.kelompokOhana.schedlin.data.UserModel
@@ -69,6 +71,7 @@ fun CalendarPage(){
     var date2 by remember{
         mutableStateOf(formatDate2(today.time))
     }
+
     //Menyimpan events dari tanggal yang dipilih
     var events by remember { mutableStateOf(mutableListOf<EventModel>()) }
 

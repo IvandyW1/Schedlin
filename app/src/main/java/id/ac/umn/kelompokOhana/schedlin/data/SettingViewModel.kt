@@ -34,10 +34,15 @@ class SettingViewModel :ViewModel() {
         }
 
         firebaseAuth.addAuthStateListener(authStateListener)
+        UserDataHolder.currentUser = null
+        CalendarDataHolder.calendarList = mutableListOf()
+        MemoDataHolder.memoList = mutableListOf()
+        ActivityDataHolder.activityList = mutableListOf()
     }
 
     //Fungsi untuk mendapatkan informasi user yang sedang login
     fun getUserInfo(){
+        val user = Firebase.auth.currentUser
         //Mengambil referensi document user yang sedang login
         val userDocRef = user?.let { db.collection("users").document(it.uid) }
 
@@ -257,6 +262,7 @@ class SettingViewModel :ViewModel() {
             user?.let { currUsers.add(it.uid) }
             docRef?.update("usersId", currUsers)
         }
+        getCalenderInfo()
     }
 
     //Function untuk melakukan update informasi user

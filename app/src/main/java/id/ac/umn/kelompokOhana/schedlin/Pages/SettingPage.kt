@@ -53,6 +53,8 @@ import id.ac.umn.kelompokOhana.schedlin.ui.theme.Background
 fun SettingPage(){
     val settingViewModel = SettingViewModel()
     settingViewModel.getUserInfo()
+    settingViewModel.getCalenderInfo()
+    settingViewModel.getMemosInfo()
     val userInfo = UserDataHolder.currentUser
     var newCalId by remember { mutableStateOf("") }
 

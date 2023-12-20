@@ -148,7 +148,7 @@ class RegisterViewModel : ViewModel() {
                         //Buat calendar default baru
                         val newCalendar = hashMapOf(
                             "usersId" to userList,
-                            "name" to "Personal Calendar",
+                            "name" to "$fName's Personal Calendar",
                         )
 
                         //Masukin ke collection
