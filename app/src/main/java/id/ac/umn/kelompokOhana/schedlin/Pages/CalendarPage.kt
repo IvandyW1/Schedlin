@@ -20,6 +20,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CircleNotifications
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
@@ -207,7 +208,7 @@ fun CalendarPage(){
         LazyColumn {
             items(events) { event ->
                 if(event.date == date2){
-                    EventItem(event.title, event.id)
+                    EventItem(event)
                 }
 
             }
@@ -229,19 +230,26 @@ fun formatDate2(inputDate: Date): String {
 
 //Merupakan tampilan untuk tiap event
 @Composable
-fun EventItem(eventName: String, eventId: String) {
+fun EventItem(event : EventModel) {
     val ccviewModel = remember { CreateCalendarViewModel() }
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(5.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
 
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(text = eventName)
+        IconButton(onClick = {}) {
+            Icon(imageVector = Icons.Default.CircleNotifications, contentDescription = "event list")
+        }
+        Column {
+            Text(text = event.title)
+            Text(text = event.startTime + " - " + event.endTime)
+        }
+
+        Spacer(modifier = Modifier.weight(1f))
         IconButton(onClick = {
-            CalendarDataHolder.currCalendar?.let { ccviewModel.deleteEvent(eventId, it.id) }
+            CalendarDataHolder.currCalendar?.let { ccviewModel.deleteEvent(event.id, it.id) }
         }) {
             Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete Button")
         }
