@@ -13,6 +13,7 @@ import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 
+//Merupakan sebuah model dari sebuah item navigasi
 data class BottomNavigationItem(
     val title: String,
     val selectedIcon: ImageVector,
@@ -22,6 +23,7 @@ data class BottomNavigationItem(
     val route : String
 )
 
+//Merupakan list dari item yag ada di navigasi bawah
 val items = listOf(
     BottomNavigationItem(
         title = "Calendar",
@@ -56,7 +58,7 @@ val items = listOf(
         title = "Setting",
         selectedIcon = Icons.Filled.Settings,
         unselectedIcon = Icons.Outlined.Settings,
-        hasNews = true,
+        hasNews = false,
         route = Pages.SettingPage.name
     ),
 )

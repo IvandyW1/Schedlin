@@ -12,6 +12,7 @@ class CreateCalendarViewModel {
     private val user = Firebase.auth.currentUser
     private val db = Firebase.firestore
 
+    //Digunakan untuk membuat sebuah calendar baru
     fun createNewCalendar(calName: String){
         val userList = arrayListOf(user?.uid)
         //Buat calendar baru
@@ -49,12 +50,16 @@ class CreateCalendarViewModel {
         }
     }
 
+    //Untuk mendapatkan format tanggal yang di inginkan
     fun getDate(input: Date): String {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         return dateFormat.format(input)
     }
+
+    //Untuk menambahkan event baru ke sebuah calendar dan tanggal tertentu
     fun addNewEvent(calId:String, date2: String, title: String, start: String, end: String, desc: String){
 
+        //Buat instance event baru
         val newEvents = hashMapOf(
             "title" to title,
             "userId" to user?.uid,
@@ -69,6 +74,7 @@ class CreateCalendarViewModel {
         val newEventsRef = db.collection("calendars").document(calId).collection("events")
         newEventsRef.document().set(newEvents)
 
+        //Tunjukkan notifikasi bahwa ada event baru yang dibuat
         val notificationService = NotificationManager.getNotificationService()
         notificationService.showNotification()
 

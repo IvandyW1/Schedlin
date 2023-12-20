@@ -17,7 +17,7 @@ fun CollabApp() {
         modifier = Modifier.fillMaxSize(),
         color = Color.White
     ) {
-
+        //Menangani navigasi saat login, register dan home page
         Crossfade(targetState = AppRouter.currentScreen, label = "") { currentState ->
             when(currentState.value) {
                 is Page.RegisterPage -> {

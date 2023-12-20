@@ -44,13 +44,15 @@ import id.ac.umn.kelompokOhana.schedlin.data.SettingViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomNavigation(){
+    //Menyimpan index item yang di select saat ini
     var selectedItemindex by rememberSaveable {
         mutableStateOf(0)
     }
-
+    //menyimpan navcontroller
     val navController = rememberNavController()
 
     Scaffold (
+        //Digunakan untuk menambilkan appbar
         topBar = {
             TopAppBar(
                 title = { Text(text = "abcd")},
@@ -63,6 +65,7 @@ fun BottomNavigation(){
             )
         },
 
+        //Digunakan untuk menampilkan bottom bar
         bottomBar = {
             NavigationBar {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -107,6 +110,7 @@ fun BottomNavigation(){
             }
         }
     ){paddingValues ->
+        //Digunakan untuk mendefinisikan rute-rute serta melakukan perpindahan page
         NavHost(
             navController = navController,
             startDestination = Pages.CalendarPage.name,

@@ -17,7 +17,7 @@ class CreateMemoViewModel : ViewModel() {
     val user = Firebase.auth.currentUser
 
 
-    //Ngambil Date
+    //Mengubah date menjadi format yang di inginkan
     fun getDate(input : Date): String {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         return dateFormat.format(input)
@@ -26,8 +26,9 @@ class CreateMemoViewModel : ViewModel() {
 
     //Membuat Memo Baru
     fun createNewMemo(name: String, desc: String, calId: String){
-
+        //Membuat list user yang memiliki memo baru tersebut dimulai dari user yang membuat memo
         val userList = arrayListOf(user?.uid)
+        //Membuat sebuah instance dari memo baru
         val newMemo = hashMapOf(
             "name" to name,
             "desc" to desc,
@@ -46,7 +47,6 @@ class CreateMemoViewModel : ViewModel() {
         //Ambil reference calendar default baru
         val newMemoDocId = newMemoRef.id
 
-        val calendarsArray = arrayListOf(newMemoDocId)
 
         val userDocumentRef = user?.let { db.collection("users").document(it.uid) }
 
@@ -65,12 +65,16 @@ class CreateMemoViewModel : ViewModel() {
             }
         }
 
+        //Membuat notifikasi bahwa memo baru telah dibuat
         val notificationService = NotificationManager.getNotificationService()
         notificationService.showNotification()
     }
 
+
+    //Fungsi untuk membuat message baru di dalam sebuah memo
     fun addNewMessages(memoId: String, content: String, date: Date){
         val date2 = getDate(date)
+        //Membuat sebuah instance message baru
         val newMessages = hashMapOf(
             "userId" to user?.uid,
             "content" to content,

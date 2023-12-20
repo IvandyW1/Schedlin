@@ -18,6 +18,7 @@ const val REQUEST_CODE = 200
 
 class NotificationService(private val context: Context) {
 
+    //Declare sejumlah variabel seperti intent
     private val notificationManager=context.getSystemService(NotificationManager::class.java)
     private val myIntent = Intent(context, MainActivity::class.java)
     private val pendingIntent = PendingIntent.getActivity(
@@ -26,6 +27,8 @@ class NotificationService(private val context: Context) {
         myIntent,
         PendingIntent.FLAG_IMMUTABLE
     )
+
+    //Fungsi untuk menunjukkan notifikasi ke user
     fun showNotification(){
         val notification= NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
             .setContentTitle("Ding Ding")

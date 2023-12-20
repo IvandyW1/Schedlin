@@ -1,7 +1,6 @@
 package id.ac.umn.kelompokOhana.schedlin.data
 
-import java.util.Date
-
+//Digunakan untuk membuat model dari sebuah Message
 data class MessageModel(
     var id: String,
     var content : String,
@@ -9,6 +8,7 @@ data class MessageModel(
     var date : String
 )
 
+//Digunakan untuk menyimpan Message saat ini
 object MessageDataHolder {
     var currentMessage: MessageModel? = null
 }

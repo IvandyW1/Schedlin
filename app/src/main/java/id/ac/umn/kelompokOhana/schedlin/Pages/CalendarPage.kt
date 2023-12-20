@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -159,11 +160,21 @@ fun CalendarPage(){
             }
         })
 
-        CalendarDataHolder.currCalendar?.let { Text(text = it.id) }
-
         Text(text = date)
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Divider(
+            color = Color.LightGray,
+            thickness = 1.dp,
+            modifier = Modifier.padding(
+                horizontal = 15.dp,
+                vertical = 10.dp
+            )
+        )
+
+        Text(text = "Calendar ID :")
+        CalendarDataHolder.currCalendar?.let { Text(text = it.id) }
+
+        Spacer(modifier = Modifier.height(10.dp))
 
         Text(
             text = "Events for $date:",

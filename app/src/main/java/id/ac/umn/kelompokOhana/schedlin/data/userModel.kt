@@ -1,5 +1,6 @@
 package id.ac.umn.kelompokOhana.schedlin.data
 
+//Digunakan untuk membuat model dari sebuah user
 data class UserModel(
     var id: String,
     var name : String,
@@ -9,6 +10,7 @@ data class UserModel(
     var memos : ArrayList<String>
 )
 
+//Digunakan untuk menyimpan user yang saat ini sedang login
 object UserDataHolder {
     var currentUser: UserModel? = null
 }

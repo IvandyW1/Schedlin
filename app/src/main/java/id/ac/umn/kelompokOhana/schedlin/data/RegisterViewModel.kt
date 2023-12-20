@@ -17,9 +17,14 @@ import java.util.Date
 
 class RegisterViewModel : ViewModel() {
     private val TAG = RegisterViewModel::class.simpleName
+    //Digunakan untuk menyimpan input dari user saat login
     var registrationUIState = mutableStateOf(RegistrationUIState())
+    //Digunakan untuk mengecek apakah semua input yang dimasukkan sudah memenuhi ketentuan
     var allValidationsPassed = mutableStateOf(false)
+
+    //Fungsi untuk tracking dan menyimpan input yang dimasukkan user
     fun onEvent(event: RegisterUIEvent) {
+        //Digunakan untuk melakukan validasi input apakah sudah sesuai ketentuan di validator
         validateDataWithRules()
         when (event) {
             is RegisterUIEvent.FirstNameChanged -> {
@@ -60,6 +65,7 @@ class RegisterViewModel : ViewModel() {
         }
     }
 
+    //Fungsi untuk melakukan register
     private fun signUp() {
         Log.d(TAG, "Inside_signUp")
         printState()
@@ -71,6 +77,7 @@ class RegisterViewModel : ViewModel() {
         )
     }
 
+    //Fungsi untuk mengecek apakah input sudah sesuai ketentuan
     private fun validateDataWithRules() {
         val fNameResult = Validator.validateFirstName(
             fName = registrationUIState.value.firstName
@@ -101,16 +108,19 @@ class RegisterViewModel : ViewModel() {
             passwordError = passwordResult.status,
         )
 
+        //Bernilai true apabila semua input sudah sesuai ketentuan di validator
         allValidationsPassed.value = fNameResult.status && lNameResult.status &&
                 emailResult.status && passwordResult.status
 
     }
 
+    //Print state atau kondisi input
     private fun printState() {
         Log.d(TAG, "Inside_printState")
         Log.d(TAG, registrationUIState.value.toString())
     }
 
+    //Fungsi untuk membuat user menggunakan autentikasi firebase
     private fun createUserInFirebase(email: String, password: String, fName:String, lName:String) {
         val db = Firebase.firestore
 
@@ -168,9 +178,9 @@ class RegisterViewModel : ViewModel() {
 
 
                     }
-
+                    //Mengambil info user saat ini
                     SettingViewModel().getUserInfo()
-
+                    //Navigasi ke Homepage saat sudah selesai register
                     AppRouter.navigateTo(Page.HomePage)
                 }
             }
@@ -179,8 +189,6 @@ class RegisterViewModel : ViewModel() {
                 Log.d(TAG, "Exception= ${it.message}")
                 Log.d(TAG, "Exception= ${it.localizedMessage}")
             }
-
-
 
     }
 }

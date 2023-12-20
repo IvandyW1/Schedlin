@@ -1,5 +1,6 @@
 package id.ac.umn.kelompokOhana.schedlin.data
 
+//Digunakan untuk membuat model dari sebuah Memo
 data class MemoModel(
     var id: String,
     var name: String,
@@ -10,6 +11,7 @@ data class MemoModel(
     var messages: MutableList<MessageModel>
 )
 
+//Digunakan untuk menyimpan list Memo dari user saat ini
 object MemoDataHolder {
     var memoList: MutableList<MemoModel> = mutableListOf()
 }

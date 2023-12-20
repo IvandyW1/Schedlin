@@ -13,9 +13,12 @@ import id.ac.umn.kelompokOhana.schedlin.navigation.AppRouter
 import id.ac.umn.kelompokOhana.schedlin.navigation.Page
 
 class SettingViewModel :ViewModel() {
+    //Mengambil reference ke firestore
     val db = Firebase.firestore
+    //Mengambil user yang saat ini login
     val user = Firebase.auth.currentUser
 
+    //Fungsi untuk melakukan logout
     fun logout() {
 
         val firebaseAuth = FirebaseAuth.getInstance()
@@ -33,9 +36,12 @@ class SettingViewModel :ViewModel() {
         firebaseAuth.addAuthStateListener(authStateListener)
     }
 
+    //Fungsi untuk mendapatkan informasi user yang sedang login
     fun getUserInfo(){
+        //Mengambil referensi document user yang sedang login
         val userDocRef = user?.let { db.collection("users").document(it.uid) }
 
+        //Menagmbil semua data yang ada
         userDocRef?.get()?.addOnSuccessListener { doc ->
             if(doc.data != null){
 
@@ -49,10 +55,12 @@ class SettingViewModel :ViewModel() {
                     memos = (userDataMap["memos"] as? List<String>)?.toArrayList() ?: arrayListOf()
                 )
 
+                //Set info yang didapat ke user saat ini
                 UserDataHolder.currentUser = userModelInstance
                 Log.d("ini", UserDataHolder.currentUser.toString())
             }
         }
+        //Dapatkan info calender dari user saat ini
         getCalenderInfo()
 
     }
@@ -61,10 +69,13 @@ class SettingViewModel :ViewModel() {
         return ArrayList(this)
     }
 
+    //Fungsi untuk mendapatkan informasi kalender dari user yang sedang login
     fun getCalenderInfo() {
+        //Mengambil id semua kalender yang dimiliki user
         val calendarIds: ArrayList<String>? = UserDataHolder.currentUser?.calendars
         Log.d("cek", calendarIds.toString())
 
+        //Lakukan iterasi untuk semua calender yang dimiliki
         if (calendarIds != null) {
             for (ids in calendarIds) {
                 val docRef = db.collection("calendars").document(ids)
@@ -94,12 +105,14 @@ class SettingViewModel :ViewModel() {
         }
     }
 
+    //Mengambil info event dan kalender dari user
     private fun processEvents(
         events: QuerySnapshot,
         eventList: MutableList<EventModel>,
         calendarDataMap: Map<String, Any>,
         doc: DocumentSnapshot
     ) {
+        //Iterasi untuk mengambil semua event
         for (event in events) {
             val eventDataMap: Map<String, Any> = event.data
             Log.d(TAG, "Event data map: $eventDataMap")
@@ -121,6 +134,7 @@ class SettingViewModel :ViewModel() {
             }
         }
 
+        //Instance sebuah calender
         Log.d(TAG, "Event array: $eventList")
         val calendarInstance = CalendarModel(
             id = doc.id,
@@ -128,6 +142,8 @@ class SettingViewModel :ViewModel() {
             usersId = (calendarDataMap["usersId"] as? List<String>)?.toArrayList() ?: arrayListOf(),
             events = eventList
         )
+
+        //Menyimpan ke list calendar saat ini
         Log.d(TAG, "Calendar array: $calendarInstance")
         if(!CalendarDataHolder.calendarList.contains(calendarInstance)) {
             CalendarDataHolder.calendarList.add(calendarInstance)
@@ -135,10 +151,12 @@ class SettingViewModel :ViewModel() {
         Log.d(TAG, "Calendar arrayList: ${CalendarDataHolder.calendarList}")
     }
 
-
+    //Digunakan untuk mendapatkan informasi memo dari user saat ini
     fun getMemosInfo(){
+        //Mengambil id dari semua memo yang dimiliki user
         val memoIds: ArrayList<String>? = UserDataHolder.currentUser?.memos
 
+        //Iterasi untuk mengambil semua memo
         if (memoIds != null) {
             for (ids in memoIds) {
                 val docRef = db.collection("memos").document(ids)
@@ -168,22 +186,26 @@ class SettingViewModel :ViewModel() {
         }
     }
 
+    //Digunakan untuk mengambil semua message dari tiap memo
     private fun processMessages(
         messages: QuerySnapshot,
         messageList: MutableList<MessageModel>,
         memoDataMap: Map<String, Any>,
         doc: DocumentSnapshot
     ) {
+        //Iterasi untuk mengambil semua message
         for (message in messages) {
             val messageDataMap: Map<String, Any> = message.data
             Log.d(TAG, "Message data map: $messageDataMap")
             messageDataMap.let {
+                //Sebuah instance message
                 val eventInstance = MessageModel(
                     id = message.id,
                     content = messageDataMap["content"].toString(),
                     uid = messageDataMap["userId"].toString(),
                     date = messageDataMap["date"].toString()
                 )
+                //Masukan ke list message
                 Log.d(TAG, "Message instance: $eventInstance")
                 if(!messageList.contains(eventInstance)) {
                     messageList.add(eventInstance)
@@ -191,6 +213,7 @@ class SettingViewModel :ViewModel() {
             }
         }
 
+        //Sebuah instance memo
         Log.d(TAG, "Message array: $messageList")
         val memoInstance = MemoModel(
             id = doc.id,
@@ -202,12 +225,14 @@ class SettingViewModel :ViewModel() {
             messages = messageList
         )
         Log.d(TAG, "Memos array: $memoInstance")
+        //Masukkan ke list memo saat ini
         if(!MemoDataHolder.memoList.contains(memoInstance)) {
             MemoDataHolder.memoList.add(memoInstance)
         }
         Log.d(TAG, "Memos arrayList: ${MemoDataHolder.memoList}")
     }
 
+    //Digunakan untuk melakukan join terhadap calendar dari user lain
     fun joinCalendar(newCalId : String){
         val docRef = user?.let { db.collection("users").document(it.uid) }
         //Menambah id Calendar baru ke Array di dalam field calendars user

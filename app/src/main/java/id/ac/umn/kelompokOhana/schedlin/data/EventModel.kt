@@ -1,7 +1,7 @@
 package id.ac.umn.kelompokOhana.schedlin.data
 
-import java.util.Date
 
+//Digunakan untuk membuat model dari sebuah Event
 data class EventModel(
     var id: String,
     var title : String,
@@ -13,6 +13,7 @@ data class EventModel(
     var dateCreated: String,
 )
 
+//Digunakan untuk menyimpan Event saat ini
 object EventDataHolder {
     var currentEvent: EventModel? = null
 }
