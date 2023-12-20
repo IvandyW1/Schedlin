@@ -33,8 +33,8 @@ class CreateMemoViewModel : ViewModel() {
             "name" to name,
             "desc" to desc,
             "date" to date,
-            "calendarID" to calId,
-            "usersID" to userList
+            "calendarId" to calId,
+            "usersId" to userList
         )
 
         //Masukin memo ke collection
@@ -46,7 +46,6 @@ class CreateMemoViewModel : ViewModel() {
 
         //Ambil reference calendar default baru
         val newMemoDocId = newMemoRef.id
-
 
         val userDocumentRef = user?.let { db.collection("users").document(it.uid) }
 
@@ -94,9 +93,10 @@ class CreateMemoViewModel : ViewModel() {
 
         //Mengambil user list di memo kemudian memo di hapus
         memoRef.get().addOnSuccessListener { doc ->
-            userList = doc.get("usersId") as? ArrayList<String> ?: ArrayList()
+            userList = doc.get("usersId") as ArrayList<String>?
         }
-        memoRef.delete()
+        Log.d("inijuga", userList.toString())
+        //memoRef.delete()
 
         //Menghapus id memo tersebut dari daftar memo tiap user
         for (user in userList!!){
@@ -105,8 +105,10 @@ class CreateMemoViewModel : ViewModel() {
                 val currMemos = doc.get("memos") as? ArrayList<String> ?: ArrayList()
                 currMemos.remove(memoId)
                 userRef?.update("memos", currMemos)
+                Log.d("inijuga", "berhasil")
             }
         }
+
     }
 
     //Fungsi untuk melakukan update terhadap memo

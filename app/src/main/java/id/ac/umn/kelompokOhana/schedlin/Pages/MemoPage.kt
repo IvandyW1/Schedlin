@@ -23,29 +23,34 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import id.ac.umn.kelompokOhana.schedlin.data.CalendarDataHolder
+import id.ac.umn.kelompokOhana.schedlin.data.CreateMemoViewModel
+import id.ac.umn.kelompokOhana.schedlin.data.MemoDataHolder
+import id.ac.umn.kelompokOhana.schedlin.data.MemoModel
 import id.ac.umn.kelompokOhana.schedlin.data.SettingViewModel
 import id.ac.umn.kelompokOhana.schedlin.navigation.Pages
 import id.ac.umn.kelompokOhana.schedlin.ui.theme.Background
 import id.ac.umn.kelompokOhana.schedlin.ui.theme.SchedlinTheme
 
-data class Memo(val id: String, val title: String, val content: String)
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MemoPage(navController: NavController) {
-    var memos by remember { mutableStateOf(dummyMemos) }
     val sViewModel = remember { SettingViewModel() }
     sViewModel.getMemosInfo()
+    var memos by remember { mutableStateOf(MemoDataHolder.memoList) }
+    val cmViewModel = remember { CreateMemoViewModel() }
 
     Scaffold(
-        content = {
-            LazyColumn(modifier = Modifier.fillMaxSize().background(Background)) {
+        content = {paddingValues ->
+            LazyColumn(modifier = Modifier.fillMaxSize().background(Background).padding(paddingValues)) {
                 // Menampilkan daftar memo menggunakan komponen MemoCard
                 items(memos) { memo ->
                     MemoCard(
                         memo = memo,
                         onDeleteClick = {
-                            memos = memos - memo
+                            memos.remove(memo)
+                            cmViewModel.deleteMemo(memo.id)
+                            sViewModel.getMemosInfo()
                         },
                         onMemoClick = {
                             // Navigasi ke MemoDetailPage saat memo di klik
@@ -60,7 +65,7 @@ fun MemoPage(navController: NavController) {
 
 @Composable
 fun MemoCard(
-    memo: Memo,
+    memo: MemoModel,
     onDeleteClick: () -> Unit,
     onMemoClick: (String) -> Unit
 ) {
@@ -79,12 +84,12 @@ fun MemoCard(
             // Teks memo
             Column {
                 Text(
-                    text = memo.title,
+                    text = memo.name,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(text = memo.content, fontSize = 14.sp)
+                Text(text = memo.desc, fontSize = 14.sp)
             }
 
             // Ikon delete
@@ -121,13 +126,3 @@ fun MemoApp() {
         }
     }
 }
-
-val dummyMemos = listOf(
-    Memo("1", "Memo 1", "Content 1"),
-    Memo("2", "Memo 2", "Content 2"),
-    Memo("3", "Memo 3", "Content 3"),
-    Memo("4", "Memo 4", "Content 4"),
-    Memo("5", "Memo 5", "Content 5"),
-    Memo("6", "Memo 6", "Content 6"),
-    // Tambahkan data dummy sesuai kebutuhan Anda
-)

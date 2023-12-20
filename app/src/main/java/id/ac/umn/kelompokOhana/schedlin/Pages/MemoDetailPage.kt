@@ -10,6 +10,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.*
@@ -23,6 +24,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import id.ac.umn.kelompokOhana.schedlin.data.CreateMemoViewModel
+import id.ac.umn.kelompokOhana.schedlin.data.MemoDataHolder
+import id.ac.umn.kelompokOhana.schedlin.data.SettingViewModel
 import id.ac.umn.kelompokOhana.schedlin.ui.theme.SchedlinTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -32,41 +36,46 @@ fun MemoDetailPage(
     onBackPressedDispatcher: OnBackPressedDispatcherOwner,
 ) {
     // Load memo details based on memoId
-    var memo by remember { mutableStateOf(dummyMemos.find { it.id == memoId } ?: Memo("", "", "")) }
+    var memo by remember { mutableStateOf(MemoDataHolder.memoList.find { it.id == memoId } ) }
     var isEditing by remember { mutableStateOf(false) }
-    var editedTitle by remember { mutableStateOf(TextFieldValue(memo.title)) }
-    var editedContent by remember { mutableStateOf(TextFieldValue(memo.content)) }
+    var editedTitle by remember { mutableStateOf(memo?.let { TextFieldValue(it.name) }) }
+    var editedContent by remember { mutableStateOf(memo?.let { TextFieldValue(it.desc) }) }
+    val cmViewModel = remember { CreateMemoViewModel() }
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     if (isEditing) {
-                        BasicTextField(
-                            value = editedTitle,
-                            onValueChange = {
-                                editedTitle = it
-                                // Jika ingin melakukan perubahan judul secara langsung,
-                                // kita bisa memperbarui objek memo.
-                                // Jika tidak, perubahan judul hanya akan terlihat
-                                // ketika menyimpan (onSaveClick).
-                                memo = memo.copy(title = it.text)
-                            },
-                            textStyle = LocalTextStyle.current.copy(
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Bold
-                            ),
-                            modifier = Modifier.fillMaxWidth()
-                        )
+                        editedTitle?.let {
+                            BasicTextField(
+                                value = it,
+                                onValueChange = {
+                                    editedTitle = it
+                                    // Jika ingin melakukan perubahan judul secara langsung,
+                                    // kita bisa memperbarui objek memo.
+                                    // Jika tidak, perubahan judul hanya akan terlihat
+                                    // ketika menyimpan (onSaveClick).
+                                    memo = memo?.copy(name = it.text)
+                                },
+                                textStyle = LocalTextStyle.current.copy(
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Bold
+                                ),
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
                     } else {
-                        Text(
-                            text = memo.title,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 20.sp,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(8.dp)
-                        )
+                        memo?.let {
+                            Text(
+                                text = it.name,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 20.sp,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(8.dp)
+                            )
+                        }
                     }
                 },
                 navigationIcon = {
@@ -88,17 +97,13 @@ fun MemoDetailPage(
                             onSaveClick = {
                                 // Save edited memo
                                 isEditing = false
-                                // Update memo in the list or database
+                                // Update memo in the database
+                                memo?.let { editedTitle?.let { it1 -> editedContent?.let {
+                                        it2 -> cmViewModel.editMemo(it1.text, it2.text, it.id) } } }
+                                MemoDataHolder.memoList = mutableListOf()
                             }
                         )
                     } else {
-                        IconButton(onClick = {
-                            // Handle more actions
-                            // Show a menu with options like Edit and Delete
-                            // You can use PopupProperties to create a menu
-                        }) {
-                            Icon(imageVector = Icons.Default.MoreVert, contentDescription = "More")
-                        }
                         IconButton(onClick = {
                             // Start editing the memo
                             isEditing = true
@@ -109,41 +114,45 @@ fun MemoDetailPage(
                 }
             )
         },
-        content = {
+        content = {paddingValues ->
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(24.dp)
             ) {
-                BasicTextField(
-                    value = if (isEditing) editedTitle else TextFieldValue(memo.title),
-                    onValueChange = {
-                        if (isEditing) {
-                            editedTitle = it
-                            memo = memo.copy(title = it.text)
-                        }
-                    },
-                    textStyle = LocalTextStyle.current.copy(
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold
-                    ),
-                    modifier = Modifier.fillMaxWidth()
-                )
+                (if (isEditing) editedTitle else memo?.let { TextFieldValue(it.name) })?.let {
+                    BasicTextField(
+                        value = it,
+                        onValueChange = {
+                            if (isEditing) {
+                                editedTitle = it
+                                memo = memo?.copy(name = it.text)
+                            }
+                        },
+                        textStyle = LocalTextStyle.current.copy(
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold
+                        ),
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
 
-                BasicTextField(
-                    value = if (isEditing) editedContent else TextFieldValue(memo.content),
-                    onValueChange = {
-                        if (isEditing) {
-                            editedContent = it
-                            memo = memo.copy(content = it.text)
-                        }
-                    },
-                    textStyle = LocalTextStyle.current.copy(fontSize = 16.sp),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-                        .padding(8.dp)
-                )
+                (if (isEditing) editedContent else memo?.let { TextFieldValue(it.desc) })?.let {
+                    BasicTextField(
+                        value = it,
+                        onValueChange = {
+                            if (isEditing) {
+                                editedContent = it
+                                memo = memo?.copy(desc = it.text)
+                            }
+                        },
+                        textStyle = LocalTextStyle.current.copy(fontSize = 16.sp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight()
+                            .padding(8.dp)
+                    )
+                }
                 Spacer(modifier = Modifier.height(16.dp))
             }
         }
