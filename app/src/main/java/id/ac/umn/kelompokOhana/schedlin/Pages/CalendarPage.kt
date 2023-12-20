@@ -107,7 +107,6 @@ fun CalendarPage(){
             .fillMaxSize()
             .height(400.dp)
             .background(Color.White)
-            .verticalScroll(rememberScrollState())
 
     ) {
         Box(
