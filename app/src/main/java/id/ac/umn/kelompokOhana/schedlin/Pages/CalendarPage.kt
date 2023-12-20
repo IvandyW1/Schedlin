@@ -47,6 +47,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import id.ac.umn.kelompokOhana.schedlin.data.ActivityDataHolder
 import id.ac.umn.kelompokOhana.schedlin.data.CalendarDataHolder
 import id.ac.umn.kelompokOhana.schedlin.data.CalendarModel
+import id.ac.umn.kelompokOhana.schedlin.data.CreateCalendarViewModel
 import id.ac.umn.kelompokOhana.schedlin.data.EventModel
 import id.ac.umn.kelompokOhana.schedlin.data.MemoDataHolder
 import id.ac.umn.kelompokOhana.schedlin.data.SettingViewModel
@@ -206,7 +207,7 @@ fun CalendarPage(){
         LazyColumn {
             items(events) { event ->
                 if(event.date == date2){
-                    EventItem(event = event.title)
+                    EventItem(event.title, event.id)
                 }
 
             }
@@ -228,7 +229,8 @@ fun formatDate2(inputDate: Date): String {
 
 //Merupakan tampilan untuk tiap event
 @Composable
-fun EventItem(event: String) {
+fun EventItem(eventName: String, eventId: String) {
+    val ccviewModel = remember { CreateCalendarViewModel() }
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -237,8 +239,10 @@ fun EventItem(event: String) {
     ) {
 
         Spacer(modifier = Modifier.width(8.dp))
-        Text(text = event)
-        IconButton(onClick = { /*TODO*/ }) {
+        Text(text = eventName)
+        IconButton(onClick = {
+            CalendarDataHolder.currCalendar?.let { ccviewModel.deleteEvent(eventId, it.id) }
+        }) {
             Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete Button")
         }
     }
