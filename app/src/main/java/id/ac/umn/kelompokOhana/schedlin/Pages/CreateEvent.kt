@@ -7,6 +7,7 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,6 +48,7 @@ import androidx.navigation.compose.rememberNavController
 import id.ac.umn.kelompokOhana.schedlin.data.CalendarDataHolder
 import id.ac.umn.kelompokOhana.schedlin.data.CreateCalendarViewModel
 import id.ac.umn.kelompokOhana.schedlin.data.CreateMemoViewModel
+import id.ac.umn.kelompokOhana.schedlin.ui.theme.Background
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -99,11 +101,15 @@ fun CreateEvent(navController : NavController){
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .verticalScroll(rememberScrollState())
+            .background(Background)
+            .fillMaxSize()
     ){
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize()
+                .background(Background),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            Spacer(modifier = Modifier.height(10.dp))
             Text(text = "New Event",
                  style = TextStyle(fontSize = 24.sp)
             )

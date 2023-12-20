@@ -1,6 +1,7 @@
 package id.ac.umn.kelompokOhana.schedlin.Pages
 
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
@@ -29,6 +30,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import id.ac.umn.kelompokOhana.schedlin.data.CreateCalendarViewModel
 import id.ac.umn.kelompokOhana.schedlin.data.SettingViewModel
+import id.ac.umn.kelompokOhana.schedlin.ui.theme.Background
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,7 +46,8 @@ fun CreateCalendar(navController: NavController){
     val sViewModel = remember { SettingViewModel() }
 
     Box(
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize().background(Background)
     ){
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
@@ -66,7 +69,7 @@ fun CreateCalendar(navController: NavController){
                     cursorColor = Color.Blue),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 10.dp)
+                    .padding(horizontal = 10.dp, vertical = 10.dp)
             )
             Spacer(modifier = Modifier.height(10.dp))
 

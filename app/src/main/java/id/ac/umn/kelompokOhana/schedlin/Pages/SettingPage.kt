@@ -4,9 +4,11 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -44,6 +46,7 @@ import id.ac.umn.kelompokOhana.schedlin.data.RegisterViewModel
 import id.ac.umn.kelompokOhana.schedlin.data.SettingViewModel
 import id.ac.umn.kelompokOhana.schedlin.data.UserDataHolder
 import id.ac.umn.kelompokOhana.schedlin.notif.NotificationService
+import id.ac.umn.kelompokOhana.schedlin.ui.theme.Background
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,6 +59,7 @@ fun SettingPage(){
     val context = LocalContext.current
 
     Column(
+        modifier = Modifier.fillMaxSize().background(Background)
     ){
         Image(
             painter = painterResource(id = R.drawable.man),
@@ -63,6 +67,7 @@ fun SettingPage(){
             modifier = Modifier
                 .size(200.dp)
                 .align(Alignment.CenterHorizontally)
+                .padding(top = 25.dp, bottom = 10.dp)
         )
         if (userInfo != null) {
             HeadingTextComponent(value = userInfo.name)
@@ -73,7 +78,7 @@ fun SettingPage(){
         OutlinedTextField(
             value = newCalId,
             onValueChange = { newId -> newCalId = newId },
-            label = { Text("Enter new Calender Id") },
+            label = { Text("Enter Calender Id to Join") },
             keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(onDone = { }),
             singleLine = true,

@@ -32,6 +32,7 @@ import id.ac.umn.kelompokOhana.schedlin.data.ActivityDataHolder
 import id.ac.umn.kelompokOhana.schedlin.data.ActivityViewModel
 import id.ac.umn.kelompokOhana.schedlin.data.CalendarDataHolder
 import id.ac.umn.kelompokOhana.schedlin.data.SettingViewModel
+import id.ac.umn.kelompokOhana.schedlin.ui.theme.Background
 
 @Composable
 fun NotificationsPage(){
@@ -45,7 +46,7 @@ fun NotificationsPage(){
 
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize().background(Color(0xFFE3F2FD))
+        modifier = Modifier.fillMaxSize().background(Background)
     ){
         LazyColumn(
             modifier = Modifier.fillMaxSize()

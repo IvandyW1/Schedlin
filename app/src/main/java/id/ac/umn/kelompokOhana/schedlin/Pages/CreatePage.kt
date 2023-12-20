@@ -1,7 +1,9 @@
 package id.ac.umn.kelompokOhana.schedlin.Pages
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,6 +21,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import id.ac.umn.kelompokOhana.schedlin.ui.theme.Background
 
 @Composable
 fun CreatePage(navController: NavHostController){
@@ -43,6 +46,7 @@ fun CreatePage(navController: NavHostController){
                          }
                          .fillMaxWidth()
                          .padding(vertical = 15.dp))
+
                 if(item != items.last()) {
                     Divider()
                 }

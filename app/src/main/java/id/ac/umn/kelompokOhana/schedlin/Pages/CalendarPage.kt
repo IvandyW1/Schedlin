@@ -1,5 +1,6 @@
 package id.ac.umn.kelompokOhana.schedlin.Pages
 
+import android.graphics.drawable.Icon
 import android.util.Log
 import android.widget.CalendarView
 import android.widget.Toast
@@ -18,6 +19,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -47,6 +51,7 @@ import id.ac.umn.kelompokOhana.schedlin.data.SettingViewModel
 import id.ac.umn.kelompokOhana.schedlin.data.UserDataHolder
 import id.ac.umn.kelompokOhana.schedlin.data.UserModel
 import id.ac.umn.kelompokOhana.schedlin.notif.NotificationManager
+import id.ac.umn.kelompokOhana.schedlin.ui.theme.Background
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -72,6 +77,7 @@ fun CalendarPage(){
 
     //Menyimpan view model setting agar dapat memanggil function
     val viewModel = remember { SettingViewModel() }
+    viewModel.getUserInfo()
 
     //Menyimpan user info
     val userInfo = UserDataHolder.currentUser
@@ -119,13 +125,14 @@ fun CalendarPage(){
         modifier = Modifier
             .fillMaxSize()
             .height(400.dp)
-            .background(Color.White)
+            .background(Background)
 
     ) {
         Box(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(16.dp)
+                .verticalScroll(rememberScrollState())
         ) {
             ExposedDropdownMenuBox(
                 expanded = expanded,
@@ -228,6 +235,9 @@ fun EventItem(event: String) {
 
         Spacer(modifier = Modifier.width(8.dp))
         Text(text = event)
+        IconButton(onClick = { /*TODO*/ }) {
+            Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete Button")
+        }
     }
 }
 

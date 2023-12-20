@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,7 +23,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import id.ac.umn.kelompokOhana.schedlin.data.SettingViewModel
 import id.ac.umn.kelompokOhana.schedlin.navigation.Pages
+import id.ac.umn.kelompokOhana.schedlin.ui.theme.Background
 import id.ac.umn.kelompokOhana.schedlin.ui.theme.SchedlinTheme
 
 data class Memo(val id: String, val title: String, val content: String)
@@ -31,10 +34,12 @@ data class Memo(val id: String, val title: String, val content: String)
 @Composable
 fun MemoPage(navController: NavController) {
     var memos by remember { mutableStateOf(dummyMemos) }
+    val sViewModel = remember { SettingViewModel() }
+    sViewModel.getMemosInfo()
 
     Scaffold(
         content = {
-            LazyColumn {
+            LazyColumn(modifier = Modifier.fillMaxSize().background(Background)) {
                 // Menampilkan daftar memo menggunakan komponen MemoCard
                 items(memos) { memo ->
                     MemoCard(

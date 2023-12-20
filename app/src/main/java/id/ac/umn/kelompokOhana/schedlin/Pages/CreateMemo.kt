@@ -1,9 +1,11 @@
 package id.ac.umn.kelompokOhana.schedlin.Pages
 
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -35,6 +37,7 @@ import androidx.navigation.compose.rememberNavController
 import id.ac.umn.kelompokOhana.schedlin.data.CalendarDataHolder
 import id.ac.umn.kelompokOhana.schedlin.data.CreateMemoViewModel
 import id.ac.umn.kelompokOhana.schedlin.data.SettingViewModel
+import id.ac.umn.kelompokOhana.schedlin.ui.theme.Background
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,7 +51,8 @@ fun CreateMemo(navController: NavController){
 
     val context = LocalContext.current
     Box(
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize().background(Background)
     ){
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
@@ -70,7 +74,7 @@ fun CreateMemo(navController: NavController){
                     cursorColor = Color.Blue),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 10.dp)
+                    .padding(horizontal = 10.dp, vertical = 10.dp)
             )
             Spacer(modifier = Modifier.height(10.dp))
 
