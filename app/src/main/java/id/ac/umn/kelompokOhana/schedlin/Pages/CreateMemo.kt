@@ -1,5 +1,6 @@
 package id.ac.umn.kelompokOhana.schedlin.Pages
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -38,8 +39,11 @@ import id.ac.umn.kelompokOhana.schedlin.data.SettingViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateMemo(navController: NavController){
+    //Menyimpan nama dan deskripsi memo
     var memoName by remember { mutableStateOf("") }
     var memoDescription by remember { mutableStateOf("") }
+
+    //Menyimpan view model untuk memanggil function
     val cmViewModel = remember { CreateMemoViewModel() }
 
     val context = LocalContext.current
@@ -89,6 +93,7 @@ fun CreateMemo(navController: NavController){
             Button(
                 onClick = {
                     CalendarDataHolder.currCalendar?.let { cmViewModel.createNewMemo(memoName, memoDescription, it.id) }
+                    Toast.makeText(context, "Memo Created!", Toast.LENGTH_SHORT).show()
                     navController.navigate("CalendarPage") },
                 modifier = Modifier
                     .padding(vertical = 10.dp)

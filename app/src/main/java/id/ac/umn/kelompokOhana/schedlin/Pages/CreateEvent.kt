@@ -201,6 +201,7 @@ fun CreateEvent(navController : NavController){
                             it.id, selectedDateText,
                             eventName, selectedStartTimeText, selectedEndTimeText, eventDescription )
                     }
+                    Toast.makeText(context, "Event Created!", Toast.LENGTH_SHORT).show()
                     navController.navigate("CalendarPage") },
                 modifier = Modifier
                     .padding(vertical = 50.dp)

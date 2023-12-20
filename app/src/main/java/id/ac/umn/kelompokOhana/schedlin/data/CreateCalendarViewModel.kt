@@ -2,6 +2,7 @@ package id.ac.umn.kelompokOhana.schedlin.data
 
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.firestore
 import id.ac.umn.kelompokOhana.schedlin.notif.NotificationManager
 import java.text.SimpleDateFormat
@@ -78,6 +79,12 @@ class CreateCalendarViewModel {
         val notificationService = NotificationManager.getNotificationService()
         notificationService.showNotification()
 
+    }
+
+    //Function untk menghapus event
+    fun deleteEvent(eventId: String, calenderId: String){
+        db.collection("calenders").document(calenderId).collection("events")
+            .document(eventId).delete()
     }
 
 

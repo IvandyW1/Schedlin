@@ -249,5 +249,13 @@ class SettingViewModel :ViewModel() {
                     }
             }
         }
+        //Mengambil referensi document calender
+        val calRef = db.collection("calendars").document(newCalId)
+        //Menambah id user baru ke document calendar
+        calRef.get().addOnSuccessListener { doc ->
+            val currUsers = doc.get("usersId") as? ArrayList<String> ?: ArrayList()
+            user?.let { currUsers.add(it.uid) }
+            docRef?.update("usersId", currUsers)
+        }
     }
 }

@@ -86,4 +86,33 @@ class CreateMemoViewModel : ViewModel() {
         newMessageRef.document().set(newMessages)
     }
 
+    //Function untuk melakukan delete memo
+    fun deleteMemo(memoId: String){
+        //Mengambil referensi untuk memo yang akan dihapus
+        val memoRef = db.collection("memos").document(memoId)
+        var userList: ArrayList<String>? = null
+
+        //Mengambil user list di memo kemudian memo di hapus
+        memoRef.get().addOnSuccessListener { doc ->
+            userList = doc.get("usersId") as? ArrayList<String> ?: ArrayList()
+        }
+        memoRef.delete()
+
+        //Menghapus id memo tersebut dari daftar memo tiap user
+        for (user in userList!!){
+            val userRef = db.collection("users").document(user)
+            userRef.get().addOnSuccessListener { doc ->
+                val currMemos = doc.get("memos") as? ArrayList<String> ?: ArrayList()
+                currMemos.remove(memoId)
+                userRef?.update("memos", currMemos)
+            }
+        }
+    }
+
+    //Fungsi untuk melakukan update terhadap memo
+    fun editMemo(newTitle: String, newDesc: String, memoId: String){
+        val memoRef = db.collection("memos").document(memoId)
+        memoRef.update("name", newTitle)
+        memoRef.update("desc", newDesc)
+    }
 }

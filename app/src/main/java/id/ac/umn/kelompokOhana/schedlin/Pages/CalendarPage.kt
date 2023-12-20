@@ -56,6 +56,7 @@ import java.util.Locale
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CalendarPage(){
+    //Mendapatkan tanggal hari ini
     val today = Calendar.getInstance()
     var date by remember{
         mutableStateOf(formatDate(today.time))
@@ -63,18 +64,26 @@ fun CalendarPage(){
     var date2 by remember{
         mutableStateOf(formatDate2(today.time))
     }
+    //Menyimpan events dari tanggal yang dipilih
     var events by remember { mutableStateOf(mutableListOf<EventModel>()) }
+
+    //Menyimpan nama-nama calendar yang dimiliki user untuk ditampilkan
     var calendars by remember { mutableStateOf(mutableListOf<String>()) }
 
+    //Menyimpan view model setting agar dapat memanggil function
     val viewModel = remember { SettingViewModel() }
 
+    //Menyimpan user info
     val userInfo = UserDataHolder.currentUser
     Log.d("testing", userInfo.toString())
+    //Mendapatkan info kalender
     viewModel.getCalenderInfo()
 
+    //Menyimpan calender list yang dimiliki user
     var calendarInfo by remember { mutableStateOf(CalendarDataHolder.calendarList) }
     Log.d("testing", calendarInfo.toString())
 
+    //Mengambil nama-nama kalendar user
     if(calendarInfo.isNotEmpty()){
         for (calendar in calendarInfo){
             if(!calendars.contains(calendar.name)){
@@ -82,8 +91,11 @@ fun CalendarPage(){
             }
         }
     }
+
+    //Menyimpan kalender yang dipilih
     var selectedText : String = CalendarDataHolder.currCalendar?.name ?: "Calendar"
 
+    //Mengganti kalendar yang dipilih
     fun changeCalendar(name: String){
         for (calendar in calendarInfo){
             if(calendar.name == name){
@@ -192,17 +204,19 @@ fun CalendarPage(){
     }
 }
 
-
+//Mengubah format tanggal untuk ditampilkan
 fun formatDate(inputDate: Date): String {
     val dateFormat = SimpleDateFormat("EEE, dd MMMM yyyy", Locale.getDefault())
     return dateFormat.format(inputDate)
 }
 
+//Mengubah format tanggal untuk disimpan
 fun formatDate2(inputDate: Date): String {
     val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     return dateFormat.format(inputDate)
 }
 
+//Merupakan tampilan untuk tiap event
 @Composable
 fun EventItem(event: String) {
     Row(

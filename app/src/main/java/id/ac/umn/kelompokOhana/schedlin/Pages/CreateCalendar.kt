@@ -1,5 +1,6 @@
 package id.ac.umn.kelompokOhana.schedlin.Pages
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
@@ -33,8 +34,12 @@ import id.ac.umn.kelompokOhana.schedlin.data.SettingViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateCalendar(navController: NavController){
+
+    //Menyimpan nama kalendar
     var calendarName by remember { mutableStateOf("") }
     val context = LocalContext.current
+
+    //Menyimpan viewmodel untuk memanggil function
     val ccViewModel = remember { CreateCalendarViewModel() }
     val sViewModel = remember { SettingViewModel() }
 
@@ -69,6 +74,7 @@ fun CreateCalendar(navController: NavController){
                 onClick = {
                     ccViewModel.createNewCalendar(calendarName)
                     sViewModel.getCalenderInfo()
+                    Toast.makeText(context, "Calendar Created!", Toast.LENGTH_SHORT).show()
                     navController.navigate("CalendarPage")},
                 modifier = Modifier
                     .padding(vertical = 10.dp)
