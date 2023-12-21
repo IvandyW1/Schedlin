@@ -197,7 +197,7 @@ fun CalendarPage(){
 
 //        Text(text = "Calendar ID :")
 //        CalendarDataHolder.currCalendar?.let { Text(text = it.id) }
-        CopyButton(CalendarDataHolder.currCalendar?.id ?: "", LocalContext.current)
+        CopyButton(CalendarDataHolder.currCalendar?.id ?: "", LocalContext.current, selectedText != "Calendar")
 
         Spacer(modifier = Modifier.height(10.dp))
 
@@ -264,7 +264,7 @@ fun EventItem(event : EventModel) {
 
 //Fungsi untuk tampilan Calendar Id dan Icon
 @Composable
-fun CopyButton(calendarId: String, context: Context) {
+fun CopyButton(calendarId: String, context: Context, isCalendarSelected: Boolean) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -279,15 +279,29 @@ fun CopyButton(calendarId: String, context: Context) {
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(text = calendarId)
-            IconButton(
-                onClick = { copyToClipboard(calendarId, context) },
-                modifier = Modifier.fillMaxHeight().size(24.dp).align(Alignment.CenterVertically)
+//        Row(
+//            verticalAlignment = Alignment.CenterVertically
+//        ) {
+//            Text(text = calendarId)
+//            IconButton(
+//                onClick = { copyToClipboard(calendarId, context) },
+//                modifier = Modifier.fillMaxHeight().size(24.dp).align(Alignment.CenterVertically)
+//            ) {
+//                Icon(imageVector = Icons.Default.ContentCopy, contentDescription = "Copy", modifier = Modifier.size(16.dp))
+//            }
+//        }
+        // Tambahkan kondisi isCalendarSelected
+        if (isCalendarSelected) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(imageVector = Icons.Default.ContentCopy, contentDescription = "Copy", modifier = Modifier.size(16.dp))
+                Text(text = calendarId)
+                IconButton(
+                    onClick = { copyToClipboard(calendarId, context) },
+                    modifier = Modifier.fillMaxHeight().size(24.dp).align(Alignment.CenterVertically)
+                ) {
+                    Icon(imageVector = Icons.Default.ContentCopy, contentDescription = "Copy", modifier = Modifier.size(16.dp))
+                }
             }
         }
     }
