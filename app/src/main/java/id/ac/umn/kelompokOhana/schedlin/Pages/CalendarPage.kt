@@ -129,15 +129,13 @@ fun CalendarPage(){
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .height(400.dp)
             .background(Background)
-
+            .verticalScroll(rememberScrollState())
     ) {
         Box(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(16.dp)
-                .verticalScroll(rememberScrollState())
         ) {
             ExposedDropdownMenuBox(
                 expanded = expanded,
@@ -205,14 +203,19 @@ fun CalendarPage(){
             modifier = Modifier.padding(16.dp)
         )
 
-        LazyColumn {
-            items(events) { event ->
-                if(event.date == date2){
-                    EventItem(event)
-                }
-
+        for (event in events) {
+            if (event.date == date2) {
+                EventItem(event)
             }
         }
+//        LazyColumn {
+//            items(events) { event ->
+//                if(event.date == date2){
+//                    EventItem(event)
+//                }
+//
+//            }
+//        }
     }
 }
 

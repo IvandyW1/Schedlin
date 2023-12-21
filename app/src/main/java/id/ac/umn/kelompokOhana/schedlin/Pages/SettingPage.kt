@@ -78,6 +78,7 @@ fun SettingPage(){
 
     var imageUri by remember { mutableStateOf<Uri?>(null) }
 
+    //Digunakan untuk mengakses storage dan memilih gambar yang diinginkan
     val launcher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
             imageUri = uri
@@ -155,6 +156,7 @@ fun SettingPage(){
     }
 }
 
+//Digunakan untuk menampilkan profile picture
 @Composable
 fun DisplaySelectedImage(imageUri: Uri?) {
     val painter = rememberAsyncImagePainter(
@@ -166,7 +168,7 @@ fun DisplaySelectedImage(imageUri: Uri?) {
 
     Image(
         painter = painter,
-        contentDescription = null, // TODO: Provide a content description
+        contentDescription = null,
         modifier = Modifier
                 .size(200.dp)
                 .padding(top = 25.dp, bottom = 10.dp)

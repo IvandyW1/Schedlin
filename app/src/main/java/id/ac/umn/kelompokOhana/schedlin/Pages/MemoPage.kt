@@ -49,7 +49,7 @@ fun MemoPage(navController: NavController) {
                         memo = memo,
                         onDeleteClick = {
                             memos.remove(memo)
-                            cmViewModel.deleteMemo(memo.id)
+                            //cmViewModel.deleteMemo(memo.id)
                             sViewModel.getMemosInfo()
                         },
                         onMemoClick = {

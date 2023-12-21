@@ -92,8 +92,8 @@ class CreateMemoViewModel : ViewModel() {
         var userList: ArrayList<String>? = null
 
         //Mengambil user list di memo kemudian memo di hapus
-        memoRef.get().addOnSuccessListener { doc ->
-            Log.d("inijuga", doc.data.toString())
+        db.collection("memos").document(memoId).get().addOnSuccessListener { doc ->
+            Log.d("inididalam", doc.data.toString())
             userList = doc.get("usersId") as ArrayList<String>?
         }
         Log.d("inijuga", userList.toString())
