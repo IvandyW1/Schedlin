@@ -51,7 +51,6 @@ val items = listOf(
         selectedIcon = Icons.Filled.Notifications,
         unselectedIcon = Icons.Outlined.Notifications,
         hasNews = false,
-        badgeCount = 10,
         route = Pages.NotificationPage.name
     ),
     BottomNavigationItem(

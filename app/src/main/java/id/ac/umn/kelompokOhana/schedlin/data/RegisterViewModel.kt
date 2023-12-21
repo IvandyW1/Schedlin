@@ -169,7 +169,7 @@ class RegisterViewModel : ViewModel() {
                             "email" to email,
                             "calendars" to calendarsArray,
                             "memos" to null,
-                            "profilepict" to path
+                            "profilePict" to path
                         )
 
                         //Masukin user ke collection

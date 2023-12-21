@@ -1,6 +1,8 @@
 package id.ac.umn.kelompokOhana.schedlin.data
 
 import android.content.ContentValues.TAG
+import android.graphics.Bitmap
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.google.firebase.Firebase
@@ -9,8 +11,10 @@ import com.google.firebase.auth.auth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.storage
 import id.ac.umn.kelompokOhana.schedlin.navigation.AppRouter
 import id.ac.umn.kelompokOhana.schedlin.navigation.Page
+import java.io.ByteArrayOutputStream
 
 class SettingViewModel :ViewModel() {
     //Mengambil reference ke firestore
@@ -55,7 +59,7 @@ class SettingViewModel :ViewModel() {
                     id = doc.id,
                     name = userDataMap["name"].toString(),
                     email = userDataMap["email"].toString(),
-                    profilePict = userDataMap["profilepict"].toString(),
+                    profilePict = userDataMap["profilePict"].toString(),
                     calendars = (userDataMap["calendars"] as? List<String>)?.toArrayList() ?: arrayListOf(),
                     memos = (userDataMap["memos"] as? List<String>)?.toArrayList() ?: arrayListOf()
                 )
@@ -269,5 +273,18 @@ class SettingViewModel :ViewModel() {
     fun updateUserInformation(name: String){
         val userRef = user?.let { db.collection("users").document(it.uid) }
         userRef?.update("name", name)
+    }
+
+    fun updateAvatarPhoto(uri: Uri){
+        val storageRef = Firebase.storage
+        val pathReference = storageRef.reference.child("avatar/${user?.uid}")
+
+        pathReference.putFile(uri).addOnSuccessListener {
+            user?.let { it1 ->
+                db.collection("users").document(it1.uid)
+                    .update("profilePict", "avatar/${it1.uid}")
+            }
+        }
+        UserDataHolder.currentUser?.profilePict = "avatar/${user?.uid}"
     }
 }
