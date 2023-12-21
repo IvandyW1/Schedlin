@@ -1,26 +1,31 @@
 package id.ac.umn.kelompokOhana.schedlin.Pages
 
-import android.graphics.drawable.Icon
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.util.Log
 import android.widget.CalendarView
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CircleNotifications
+import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
@@ -33,6 +38,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -45,18 +51,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import id.ac.umn.kelompokOhana.schedlin.data.ActivityDataHolder
 import id.ac.umn.kelompokOhana.schedlin.data.CalendarDataHolder
-import id.ac.umn.kelompokOhana.schedlin.data.CalendarModel
 import id.ac.umn.kelompokOhana.schedlin.data.CreateCalendarViewModel
 import id.ac.umn.kelompokOhana.schedlin.data.EventModel
-import id.ac.umn.kelompokOhana.schedlin.data.MemoDataHolder
 import id.ac.umn.kelompokOhana.schedlin.data.SettingViewModel
 import id.ac.umn.kelompokOhana.schedlin.data.UserDataHolder
-import id.ac.umn.kelompokOhana.schedlin.data.UserModel
-import id.ac.umn.kelompokOhana.schedlin.notif.NotificationManager
 import id.ac.umn.kelompokOhana.schedlin.ui.theme.Background
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -193,8 +195,9 @@ fun CalendarPage(){
             )
         )
 
-        Text(text = "Calendar ID :")
-        CalendarDataHolder.currCalendar?.let { Text(text = it.id) }
+//        Text(text = "Calendar ID :")
+//        CalendarDataHolder.currCalendar?.let { Text(text = it.id) }
+        CopyButton(CalendarDataHolder.currCalendar?.id ?: "", LocalContext.current)
 
         Spacer(modifier = Modifier.height(10.dp))
 
@@ -258,6 +261,56 @@ fun EventItem(event : EventModel) {
         }
     }
 }
+
+//Fungsi untuk tampilan Calendar Id dan Icon
+@Composable
+fun CopyButton(calendarId: String, context: Context) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(text = "Calendar ID:")
+        }
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(text = calendarId)
+            IconButton(
+                onClick = { copyToClipboard(calendarId, context) },
+                modifier = Modifier.fillMaxHeight().size(24.dp).align(Alignment.CenterVertically)
+            ) {
+                Icon(imageVector = Icons.Default.ContentCopy, contentDescription = "Copy", modifier = Modifier.size(16.dp))
+            }
+        }
+    }
+    showToast("Copied to clipboard", context)
+}
+
+//Fungsi untuk copy calendar Id ke Clipboard user
+fun copyToClipboard(text: String, context: Context) {
+    val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    val clip = ClipData.newPlainText("Calendar ID", text)
+    clipboard.setPrimaryClip(clip)
+}
+
+//Toast handle copy clipboard
+@Composable
+fun showToast(message: String, context: Context) {
+    DisposableEffect(context) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        onDispose { /* cleanup logic if needed */ }
+    }
+}
+
+
 
 @Preview
 @Composable
