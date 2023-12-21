@@ -1,6 +1,7 @@
 package id.ac.umn.kelompokOhana.schedlin.Pages
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.setContent
@@ -15,6 +16,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -39,7 +41,7 @@ fun MemoPage(navController: NavController) {
     sViewModel.getMemosInfo()
     var memos by remember { mutableStateOf(MemoDataHolder.memoList) }
     val cmViewModel = remember { CreateMemoViewModel() }
-
+    val context = LocalContext.current
     Scaffold(
         content = {paddingValues ->
             LazyColumn(modifier = Modifier.fillMaxSize().background(Background).padding(paddingValues)) {
@@ -49,8 +51,8 @@ fun MemoPage(navController: NavController) {
                         memo = memo,
                         onDeleteClick = {
                             memos.remove(memo)
-                            //cmViewModel.deleteMemo(memo.id)
-                            sViewModel.getMemosInfo()
+                            cmViewModel.deleteMemo(memo.id)
+                            Toast.makeText(context, "Memo Deleted", Toast.LENGTH_SHORT).show()
                         },
                         onMemoClick = {
                             // Navigasi ke MemoDetailPage saat memo di klik

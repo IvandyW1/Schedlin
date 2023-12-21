@@ -53,7 +53,6 @@ class SettingViewModel :ViewModel() {
         //Menagmbil semua data yang ada
         userDocRef?.get()?.addOnSuccessListener { doc ->
             if(doc.data != null){
-
                 val userDataMap: Map<String, Any> = doc.data!!
                 val userModelInstance = UserModel(
                     id = doc.id,
@@ -69,9 +68,9 @@ class SettingViewModel :ViewModel() {
                 Log.d("ini", UserDataHolder.currentUser.toString())
             }
         }
+
         //Dapatkan info calender dari user saat ini
         getCalenderInfo()
-
     }
 
     fun <T> List<T>.toArrayList(): ArrayList<T> {
@@ -91,7 +90,6 @@ class SettingViewModel :ViewModel() {
                 docRef.get()
                     .addOnSuccessListener { doc ->
                         if (doc != null) {
-                            Log.d(TAG, "DocumentSnapshot data: ${doc.data}")
                             val calendarDataMap: Map<String, Any> = doc.data!!
                             val eventList = mutableListOf<EventModel>()
 
@@ -169,10 +167,10 @@ class SettingViewModel :ViewModel() {
         if (memoIds != null) {
             for (ids in memoIds) {
                 val docRef = db.collection("memos").document(ids)
+
                 docRef.get()
                     .addOnSuccessListener { doc ->
                         if (doc != null) {
-                            Log.d(TAG, "DocumentSnapshot data: ${doc.data}")
                             val memoDataMap: Map<String, Any> = doc.data!!
                             val messageList = mutableListOf<MessageModel>()
 
@@ -275,6 +273,7 @@ class SettingViewModel :ViewModel() {
         userRef?.update("name", name)
     }
 
+    //Function untuk melakukan update profile picture pengguna
     fun updateAvatarPhoto(uri: Uri){
         val storageRef = Firebase.storage
         val pathReference = storageRef.reference.child("avatar/${user?.uid}")

@@ -128,15 +128,11 @@ class RegisterViewModel : ViewModel() {
             .getInstance()
             .createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener {
-                Log.d(TAG, "Inside_OnCompleteListener")
-                Log.d(TAG, " isSuccessful = ${it.isSuccessful}")
-
                 if (it.isSuccessful) {
                     //Ngambil current user
                     val user = Firebase.auth.currentUser
 
                     if(user != null){
-
                         //Ngambil Reference ke storage buat default avatar image
                         val storage = Firebase.storage
                         val storageRef = storage.reference
@@ -175,8 +171,6 @@ class RegisterViewModel : ViewModel() {
                         //Masukin user ke collection
                         db.collection("users").document(user.uid)
                             .set(newUser)
-
-
                     }
                     //Mengambil info user saat ini
                     SettingViewModel().getUserInfo()
@@ -185,10 +179,8 @@ class RegisterViewModel : ViewModel() {
                 }
             }
             .addOnFailureListener {
-                Log.d(TAG, "Inside_OnFailureListener")
                 Log.d(TAG, "Exception= ${it.message}")
                 Log.d(TAG, "Exception= ${it.localizedMessage}")
             }
-
     }
 }

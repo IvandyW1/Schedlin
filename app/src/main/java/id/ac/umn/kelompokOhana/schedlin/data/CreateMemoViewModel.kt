@@ -89,27 +89,32 @@ class CreateMemoViewModel : ViewModel() {
     fun deleteMemo(memoId: String){
         //Mengambil referensi untuk memo yang akan dihapus
         val memoRef = db.collection("memos").document(memoId)
-        var userList: ArrayList<String>? = null
+        Log.d("idlah", memoId)
 
         //Mengambil user list di memo kemudian memo di hapus
         db.collection("memos").document(memoId).get().addOnSuccessListener { doc ->
             Log.d("inididalam", doc.data.toString())
-            userList = doc.get("usersId") as ArrayList<String>?
-        }
-        Log.d("inijuga", userList.toString())
-        //memoRef.delete()
 
-        //Menghapus id memo tersebut dari daftar memo tiap user
-        for (user in userList!!){
-            val userRef = db.collection("users").document(user)
-            userRef.get().addOnSuccessListener { doc ->
-                val currMemos = doc.get("memos") as? ArrayList<String> ?: ArrayList()
-                currMemos.remove(memoId)
-                userRef?.update("memos", currMemos)
-                Log.d("inijuga", "berhasil")
-            }
+        }
+        memoRef.delete()
+
+        //Menghapus id memo tersebut dari daftar memo user
+        val userRef = user?.let { db.collection("users").document(it.uid) }
+        userRef?.get()?.addOnSuccessListener{ doc ->
+            val currMemos = doc.get("memos") as? ArrayList<String> ?: ArrayList()
+            Log.d("ini111juga", currMemos.toString())
+            currMemos.remove(memoId)
+            Log.d("inijuga", currMemos.toString())
+            userRef?.update("memos", currMemos)
         }
 
+        val currMemos = UserDataHolder.currentUser?.memos
+        currMemos?.remove(memoId)
+        if (currMemos != null) {
+            UserDataHolder.currentUser?.memos = currMemos
+        }else{
+            UserDataHolder.currentUser?.memos = ArrayList<String>()
+        }
     }
 
     //Fungsi untuk melakukan update terhadap memo

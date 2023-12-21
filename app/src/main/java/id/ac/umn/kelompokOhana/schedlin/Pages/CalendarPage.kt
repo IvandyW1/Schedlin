@@ -195,8 +195,6 @@ fun CalendarPage(){
             )
         )
 
-//        Text(text = "Calendar ID :")
-//        CalendarDataHolder.currCalendar?.let { Text(text = it.id) }
         CopyButton(CalendarDataHolder.currCalendar?.id ?: "", LocalContext.current, selectedText != "Calendar")
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -211,14 +209,6 @@ fun CalendarPage(){
                 EventItem(event)
             }
         }
-//        LazyColumn {
-//            items(events) { event ->
-//                if(event.date == date2){
-//                    EventItem(event)
-//                }
-//
-//            }
-//        }
     }
 }
 
@@ -238,6 +228,7 @@ fun formatDate2(inputDate: Date): String {
 @Composable
 fun EventItem(event : EventModel) {
     val ccviewModel = remember { CreateCalendarViewModel() }
+    val context = LocalContext.current
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -256,6 +247,7 @@ fun EventItem(event : EventModel) {
         Spacer(modifier = Modifier.weight(1f))
         IconButton(onClick = {
             CalendarDataHolder.currCalendar?.let { ccviewModel.deleteEvent(event.id, it.id) }
+            Toast.makeText(context, "Event Deleted", Toast.LENGTH_SHORT).show()
         }) {
             Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete Button")
         }
@@ -279,17 +271,6 @@ fun CopyButton(calendarId: String, context: Context, isCalendarSelected: Boolean
 
         Spacer(modifier = Modifier.height(10.dp))
 
-//        Row(
-//            verticalAlignment = Alignment.CenterVertically
-//        ) {
-//            Text(text = calendarId)
-//            IconButton(
-//                onClick = { copyToClipboard(calendarId, context) },
-//                modifier = Modifier.fillMaxHeight().size(24.dp).align(Alignment.CenterVertically)
-//            ) {
-//                Icon(imageVector = Icons.Default.ContentCopy, contentDescription = "Copy", modifier = Modifier.size(16.dp))
-//            }
-//        }
         // Tambahkan kondisi isCalendarSelected
         if (isCalendarSelected) {
             Row(
@@ -305,25 +286,16 @@ fun CopyButton(calendarId: String, context: Context, isCalendarSelected: Boolean
             }
         }
     }
-    showToast("Copied to clipboard", context)
+
 }
 
 //Fungsi untuk copy calendar Id ke Clipboard user
 fun copyToClipboard(text: String, context: Context) {
     val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     val clip = ClipData.newPlainText("Calendar ID", text)
+    Toast.makeText(context, "Copied to Clipboard", Toast.LENGTH_SHORT).show()
     clipboard.setPrimaryClip(clip)
 }
-
-//Toast handle copy clipboard
-@Composable
-fun showToast(message: String, context: Context) {
-    DisposableEffect(context) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-        onDispose { /* cleanup logic if needed */ }
-    }
-}
-
 
 
 @Preview
